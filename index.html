@@ -12,6 +12,42 @@ body{
     background:linear-gradient(135deg,#4a148c,#12002f);
     height:100vh;display:flex;justify-content:center;align-items:center;overflow:hidden;
 }
+
+/* USERNAME SCREEN */
+.username-screen{
+    position:absolute;width:100%;height:100%;
+    background:rgba(0,0,0,0.65);
+    display:flex;flex-direction:column;justify-content:center;align-items:center;
+    color:white;animation:fadeIn .8s ease;
+}
+.username-box{
+    background:rgba(255,255,255,0.15);
+    padding:25px;border-radius:20px;
+    backdrop-filter:blur(10px);
+    width:90%;max-width:350px;text-align:center;
+}
+.username-box input{
+    width:100%;padding:12px;font-size:1.1rem;border-radius:10px;border:none;margin-top:10px;
+}
+.username-box button{
+    margin-top:15px;padding:12px 25px;font-size:1.2rem;
+    background:#FFD700;color:#4a148c;border:none;border-radius:10px;
+    cursor:pointer;font-weight:bold;
+}
+
+/* START SCREEN */
+.start-screen,.end-screen{
+    position:absolute;width:100%;height:100%;background:rgba(0,0,0,0.65);
+    display:flex;flex-direction:column;justify-content:center;align-items:center;
+    color:white;animation:fadeIn .8s ease;
+}
+.start-btn,.restart-btn{
+    padding:15px 35px;font-size:1.4rem;background:#FFD700;color:#4a148c;border:none;
+    border-radius:12px;cursor:pointer;margin-top:20px;font-weight:bold;transition:.25s;
+}
+.start-btn:hover,.restart-btn:hover{transform:scale(1.1);}
+
+/* GAME CARD */
 .game-card{
     width:95%;max-width:600px;padding:30px;border-radius:25px;
     background:rgba(255,255,255,0.15);backdrop-filter:blur(12px);
@@ -40,33 +76,23 @@ body{
     border-radius:12px;cursor:pointer;font-weight:bold;transition:.25s;
 }
 .nav-btn:hover{background:white;color:#4a148c;}
-.start-screen,.end-screen{
-    position:absolute;width:100%;height:100%;background:rgba(0,0,0,0.65);
-    display:flex;flex-direction:column;justify-content:center;align-items:center;
-    color:white;animation:fadeIn .8s ease;
+
+/* CERTIFICATE */
+.certificate{
+    background:white;color:#4a148c;padding:30px;border-radius:20px;
+    width:90%;max-width:500px;text-align:center;
+    box-shadow:0 10px 30px rgba(0,0,0,0.4);
 }
-.start-btn,.restart-btn{
-    padding:15px 35px;font-size:1.4rem;background:#FFD700;color:#4a148c;border:none;
-    border-radius:12px;cursor:pointer;margin-top:20px;font-weight:bold;transition:.25s;
-}
-.start-btn:hover,.restart-btn:hover{transform:scale(1.1);}
-.popup{
-    position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
-    background:rgba(255,255,255,0.95);padding:25px;border-radius:15px;
-    width:90%;max-width:400px;box-shadow:0 10px 30px rgba(0,0,0,0.4);z-index:50;display:none;
-}
-.popup input,.popup select{
-    width:100%;padding:12px;margin:10px 0;font-size:1rem;border-radius:8px;border:1px solid #ccc;
-}
-.popup button{
-    padding:10px 20px;background:#4a148c;color:white;border:none;border-radius:8px;
-    cursor:pointer;margin-inline:3px;
-}
+.certificate h2{margin-bottom:10px;}
+.certificate p{font-size:1.2rem;margin:8px 0;}
+
+/* FOOTER */
 .footer-bar{
     position:fixed;bottom:0;width:100%;background:rgba(255,215,0,0.15);
     padding:10px 0;text-align:center;font-size:1.2rem;font-weight:bold;color:#FFD700;
     letter-spacing:3px;z-index:9999;backdrop-filter:blur(6px);
 }
+
 @keyframes fadeIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
 .admin-link{color:#FFD700;font-size:.9rem;margin-top:10px;display:none;text-decoration:none;}
 .admin-link:hover{text-decoration:underline;}
@@ -75,11 +101,19 @@ body{
 
 <body>
 
+<!-- USERNAME SCREEN -->
+<div class="username-screen" id="usernameScreen">
+    <div class="username-box">
+        <h2>أدخل اسمك للبدء</h2>
+        <input type="text" id="usernameInput" placeholder="اكتب اسمك هنا">
+        <button onclick="saveUsername()">متابعة</button>
+    </div>
+</div>
+
 <!-- START SCREEN -->
-<div class="start-screen" id="startScreen">
+<div class="start-screen" id="startScreen" style="display:none;">
     <h1 style="font-size:2.2rem;">مسابقة رمضان - أكاديمية HZ</h1>
 
-    <!-- زر الإدارة (مخفي افتراضيًا) -->
     <a id="adminLink" href="admin.html" class="admin-link">صفحة إدارة الأسئلة</a>
 
     <button class="start-btn" onclick="startGame()">ابدأ اللعب</button>
@@ -87,22 +121,13 @@ body{
 
 <!-- END SCREEN -->
 <div class="end-screen" id="endScreen" style="display:none;">
-    <h1>انتهت المسابقة</h1>
-    <h2>نقاطك: <span id="finalScore"></span></h2>
-    <h3>نسبة النجاح: <span id="finalPercent"></span>%</h3>
+    <div class="certificate">
+        <h2>شهادة إتمام الاختبار</h2>
+        <p>الاسم: <span id="certName"></span></p>
+        <p>الدرجة: <span id="certScore"></span></p>
+        <p>نسبة النجاح: <span id="certPercent"></span>%</p>
+    </div>
     <button class="restart-btn" onclick="restart()">إعادة اللعب</button>
-</div>
-
-<!-- ADD QUESTION POPUP -->
-<div class="popup" id="addPopup">
-    <h2>إضافة سؤال جديد</h2>
-    <input type="text" id="newQ" placeholder="اكتب السؤال هنا">
-    <select id="newA">
-        <option value="true">صحيح</option>
-        <option value="false">خاطئ</option>
-    </select>
-    <button onclick="saveQFromGame()">حفظ</button>
-    <button onclick="closeAdd()">إلغاء</button>
 </div>
 
 <!-- MAIN GAME CARD -->
@@ -132,7 +157,6 @@ body{
     <div class="nav-grid">
         <button class="nav-btn" onclick="go(1)">السؤال التالي</button>
         <button class="nav-btn" onclick="go(-1)">السؤال السابق</button>
-        <button class="nav-btn" onclick="openAdd()">إضافة سؤال</button>
     </div>
 
 </div>
@@ -149,34 +173,41 @@ if (params.get("admin") === "1") {
     document.getElementById("adminLink").style.display = "inline-block";
 }
 
-/* ===== تخزين الأسئلة ===== */
-const STORAGE_KEY = "hz_ramadan_questions_v1";
-const defaultQuestions = [
-    { q:"يشرع استقبال شهر رمضان بالتوبة النصوح الصادقة من جميع الذنوب.",a:true },
-    { q:"من السنة الاستعداد لرمضان بالمبالغة في شراء الأطعمة والمشروبات.",a:false },
-    { q:"حقيقة الصيام هي حفظ الجوارح عن الآثام وليس مجرد ترك الطعام والشراب.",a:true },
-    { q:"من المخالفات الشائعة ضياع الأوقات في متابعة المسلسلات والقنوات.",a:true },
-    { q:"الأفضل للمصلي في صلاة التراويح أن ينصرف قبل أن يكمل الإمام صلاته.",a:false }
+/* تخزين الأسئلة */
+const STORAGE_KEY="hz_ramadan_questions_v1";
+const defaultQuestions=[
+    {q:"يشرع استقبال شهر رمضان بالتوبة النصوح الصادقة من جميع الذنوب.",a:true},
+    {q:"من السنة الاستعداد لرمضان بالمبالغة في شراء الأطعمة والمشروبات.",a:false},
+    {q:"حقيقة الصيام هي حفظ الجوارح عن الآثام وليس مجرد ترك الطعام والشراب.",a:true},
+    {q:"من المخالفات الشائعة ضياع الأوقات في متابعة المسلسلات والقنوات.",a:true},
+    {q:"الأفضل للمصلي في صلاة التراويح أن ينصرف قبل أن يكمل الإمام صلاته.",a:false}
 ];
 function loadQuestions(){
-    const saved = localStorage.getItem(STORAGE_KEY);
-    return saved ? JSON.parse(saved) : [...defaultQuestions];
+    const saved=localStorage.getItem(STORAGE_KEY);
+    return saved?JSON.parse(saved):[...defaultQuestions];
 }
-function saveQuestions(q){ localStorage.setItem(STORAGE_KEY, JSON.stringify(q)); }
+function saveQuestions(q){localStorage.setItem(STORAGE_KEY,JSON.stringify(q));}
 
-/* ===== الأصوات ===== */
+/* الأصوات */
 const sndStart=new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_1c8d9e3b4d.mp3?filename=start-13693.mp3");
-const sndPopup=new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_0e3b82466e.mp3?filename=click-124467.mp3");
-const sndSave=new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_7e8e9e3b4d.mp3?filename=success-1-6297.mp3");
 const sndEnd=new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_6d7f7dedf8.mp3?filename=finish-13693.mp3");
 const sndCorrect=new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_7e8e9e3b4d.mp3?filename=correct-2-46134.mp3");
 const sndWrong=new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_6d7f7dedf8.mp3?filename=error-2-46134.mp3");
 const sndNext=new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_0e3b82466e.mp3?filename=click-124467.mp3");
 
-/* ===== منطق اللعبة ===== */
-let questions = loadQuestions();
-let pos = 0;
-let score = 0;
+/* منطق اللعبة */
+let questions=loadQuestions();
+let pos=0;
+let score=0;
+let username="";
+
+function saveUsername(){
+    const input=document.getElementById("usernameInput").value.trim();
+    if(!input){alert("الرجاء إدخال الاسم");return;}
+    username=input;
+    document.getElementById("usernameScreen").style.display="none";
+    document.getElementById("startScreen").style.display="flex";
+}
 
 const lvl=document.getElementById("lvl");
 const stg=document.getElementById("stg");
@@ -198,14 +229,15 @@ function endGame(){
     sndEnd.play();
     document.getElementById("gameCard").style.display="none";
     document.getElementById("endScreen").style.display="flex";
-    document.getElementById("finalScore").textContent=score;
-    document.getElementById("finalPercent").textContent=((score/(questions.length*10))*100).toFixed(1);
+
+    document.getElementById("certName").textContent=username;
+    document.getElementById("certScore").textContent=score;
+    document.getElementById("certPercent").textContent=((score/(questions.length*10))*100).toFixed(1);
 }
 function restart(){
     pos=0;score=0;scoreBox.textContent=0;
     document.getElementById("endScreen").style.display="none";
-    document.getElementById("gameCard").style.display="block";
-    render();
+    document.getElementById("startScreen").style.display="flex";
 }
 function render(){
     if(pos>=questions.length)return endGame();
@@ -233,22 +265,6 @@ function check(val){
 function go(v){
     pos=Math.min(Math.max(pos+v,0),questions.length-1);
     sndNext.play();render();
-}
-
-/* إضافة سؤال من داخل اللعبة */
-function openAdd(){sndPopup.play();document.getElementById("addPopup").style.display="block";}
-function closeAdd(){sndPopup.play();document.getElementById("addPopup").style.display="none";}
-function saveQFromGame(){
-    const q=document.getElementById("newQ").value.trim();
-    const a=document.getElementById("newA").value==="true";
-    if(!q){alert("الرجاء كتابة السؤال");return;}
-    questions.push({q,a});
-    saveQuestions(questions);
-    document.getElementById("newQ").value="";
-    sndSave.play();
-    closeAdd();
-    alert("تمت إضافة السؤال بنجاح!");
-    render();
 }
 </script>
 
