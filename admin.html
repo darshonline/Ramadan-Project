@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>إدارة أسئلة المسابقة - أكاديمية HZ</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: "Cairo", sans-serif;
+}
+body {
+    background: linear-gradient(135deg, #12002f, #4a148c);
+    min-height: 100vh;
+    padding: 20px;
+    color: #fff;
+}
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    background: rgba(255,255,255,0.08);
+    border-radius: 20px;
+    padding: 20px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+}
+h1 {
+    text-align: center;
+    margin-bottom: 15px;
+}
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+.top-bar a {
+    color: #FFD700;
+    text-decoration: none;
+    font-weight: bold;
+}
+.top-bar a:hover {
+    text-decoration: underline;
+}
+.btn {
+    padding: 10px 18px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+}
+.btn-primary {
+    background: #FFD700;
+    color: #4a148c;
+}
+.btn-danger {
+    background: #e74c3c;
+    color: #fff;
+}
+.btn-secondary {
+    background: #34495e;
+    color: #fff;
+}
+.btn:hover {
+    transform: scale(1.05);
+}
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+.table th, .table td {
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+    padding: 8px;
+    text-align: right;
+    font-size: 0.95rem;
+}
+.table th {
+    background: rgba(255,255,255,0.1);
+}
+.badge {
+    padding: 3px 8px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+}
+.badge-true {
+    background: #2ecc71;
+}
+.badge-false {
+    background: #e74c3c;
+}
+input[type="text"], select {
+    width: 100%;
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    margin-bottom: 8px;
+}
+.form-inline {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+.footer-note {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 0.9rem;
+    color: #FFD700;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>إدارة أسئلة مسابقة رمضان</h1>
+
+    <div class="top-bar">
+        <div>
+            <button class="btn btn-primary" onclick="addRow()">إضافة سؤال جديد</button>
+            <button class="btn btn-secondary" onclick="saveAll()">حفظ جميع التغييرات</button>
+            <button class="btn btn-danger" onclick="resetAll()">إعادة الأسئلة الافتراضية</button>
+        </div>
+        <a href="index.html">⬅ العودة إلى صفحة اللعب</a>
+    </div>
+
+    <table class="table" id="qTable">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>السؤال</th>
+                <th>الإجابة</th>
+                <th>إجراءات</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- يتم ملؤها ديناميكياً -->
+        </tbody>
+    </table>
+
+    <div class="footer-note">
+        ✦ إعداد وتصميم محمد مصطفى ✦
+    </div>
+</div>
+
+<script>
+/* ===== نفس منطق questions.js ===== */
+const STORAGE_KEY = "hz_ramadan_questions_v1";
+const defaultQuestions = [
+    { q: "يشرع استقبال شهر رمضان بالتوبة النصوح الصادقة من جميع الذنوب.", a: true },
+    { q: "من السنة الاستعداد لرمضان بالمبالغة في شراء الأطعمة والمشروبات.", a: false },
+    { q: "حقيقة الصيام هي حفظ الجوارح عن الآثام وليس مجرد ترك الطعام والشراب.", a: true },
+    { q: "من المخالفات الشائعة ضياع الأوقات في متابعة المسلسلات والقنوات.", a: true },
+    { q: "الأفضل للمصلي في صلاة التراويح أن ينصرف قبل أن يكمل الإمام صلاته.", a: false },
+    { q: "السحور سنة مؤكدة وفيه بركة عظيمة تقوي الصائم على العبادة.", a: true },
+    { q: "من هدي النبي صلى الله عليه وسلم تعجيل الفطر فور ثبوت دخول الوقت.", a: true },
+    { q: "يستحب استقبال شهر رمضان بالشك في دخول الشهر احتياطاً.", a: false },
+    { q: "صون السمع والبصر عن المحرمات واجب على الصائم ليكون صومه حقيقياً.", a: true },
+    { q: "يعتبر الانشغال بغير الطاعات في العشر الأواخر من رمضان من الحرمان.", a: true }
+];
+function loadQuestions() {
+    try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) return JSON.parse(saved);
+    } catch(e) { console.warn(e); }
+    return [...defaultQuestions];
+}
+function saveQuestions(questions) {
+    try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(questions));
+    } catch(e) { console.error(e); }
+}
+function resetQuestions() {
+    saveQuestions(defaultQuestions);
+    return loadQuestions();
+}
+/* ===== /questions.js ===== */
+
+let questions = loadQuestions();
+const tbody = document.querySelector("#qTable tbody");
+
+function renderTable() {
+    tbody.innerHTML = "";
+    questions.forEach((item, index) => {
+        const tr = document.createElement("tr");
+
+        const tdIndex = document.createElement("td");
+        tdIndex.textContent = index + 1;
+
+        const tdQ = document.createElement("td");
+        const inputQ = document.createElement("input");
+        inputQ.type = "text";
+        inputQ.value = item.q;
+        inputQ.oninput = (e) => {
+            questions[index].q = e.target.value;
+        };
+        tdQ.appendChild(inputQ);
+
+        const tdA = document.createElement("td");
+        const selectA = document.createElement("select");
+        const optTrue = document.createElement("option");
+        optTrue.value = "true";
+        optTrue.textContent = "صحيح";
+        const optFalse = document.createElement("option");
+        optFalse.value = "false";
+        optFalse.textContent = "خاطئ";
+        selectA.appendChild(optTrue);
+        selectA.appendChild(optFalse);
+        selectA.value = item.a ? "true" : "false";
+        selectA.onchange = (e) => {
+            questions[index].a = (e.target.value === "true");
+        };
+        tdA.appendChild(selectA);
+
+        const tdActions = document.createElement("td");
+        const btnDel = document.createElement("button");
+        btnDel.textContent = "حذف";
+        btnDel.className = "btn btn-danger";
+        btnDel.onclick = () => {
+            if (confirm("هل أنت متأكد من حذف هذا السؤال؟")) {
+                questions.splice(index, 1);
+                renderTable();
+            }
+        };
+        tdActions.appendChild(btnDel);
+
+        tr.appendChild(tdIndex);
+        tr.appendChild(tdQ);
+        tr.appendChild(tdA);
+        tr.appendChild(tdActions);
+
+        tbody.appendChild(tr);
+    });
+}
+
+function addRow() {
+    questions.push({ q: "", a: true });
+    renderTable();
+}
+
+function saveAll() {
+    // إزالة الأسئلة الفارغة
+    questions = questions.filter(q => q.q.trim() !== "");
+    saveQuestions(questions);
+    alert("تم حفظ جميع التغييرات بنجاح.");
+    renderTable();
+}
+
+function resetAll() {
+    if (!confirm("سيتم استرجاع الأسئلة الافتراضية وحذف التعديلات، هل أنت متأكد؟")) return;
+    questions = resetQuestions();
+    renderTable();
+}
+
+renderTable();
+</script>
+
+</body>
+</html>
