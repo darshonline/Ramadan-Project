@@ -6,194 +6,70 @@
 <title>أكاديمية HZ - مسابقة رمضان</title>
 
 <style>
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: "Cairo", sans-serif;
+/* RESET */
+*{box-sizing:border-box;margin:0;padding:0;font-family:"Cairo",sans-serif;}
+body{
+    background:linear-gradient(135deg,#4a148c,#12002f);
+    height:100vh;display:flex;justify-content:center;align-items:center;overflow:hidden;
 }
-body {
-    background: linear-gradient(135deg, #4a148c, #12002f);
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
+.game-card{
+    width:95%;max-width:600px;padding:30px;border-radius:25px;
+    background:rgba(255,255,255,0.15);backdrop-filter:blur(12px);
+    border:1px solid rgba(255,255,255,0.3);box-shadow:0 20px 50px rgba(0,0,0,0.4);
+    text-align:center;display:none;animation:fadeIn .8s ease;
 }
-.game-card {
-    width: 95%;
-    max-width: 600px;
-    padding: 30px;
-    border-radius: 25px;
-    background: rgba(255,255,255,0.15);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(255,255,255,0.3);
-    box-shadow: 0 20px 50px rgba(0,0,0,0.4);
-    text-align: center;
-    display: none;
-    animation: fadeIn 0.8s ease;
+.logo-header{width:110px;margin-bottom:15px;border-radius:15px;box-shadow:0 5px 15px rgba(0,0,0,0.4);}
+.stats-header{
+    display:flex;justify-content:space-between;background:rgba(255,255,255,0.2);
+    padding:12px;border-radius:12px;color:white;font-weight:bold;margin-bottom:20px;
 }
-.logo-header {
-    width: 110px;
-    margin-bottom: 15px;
-    border-radius: 15px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+.question-box{min-height:140px;display:flex;justify-content:center;align-items:center;}
+.question-text{font-size:1.6rem;color:#fff;font-weight:bold;line-height:1.7;}
+.choice-btns{display:flex;justify-content:center;gap:20px;margin-top:15px;}
+.choice-btns button{
+    width:150px;padding:14px;font-size:1.3rem;border-radius:50px;border:none;
+    cursor:pointer;transition:.25s;color:white;font-weight:bold;
 }
-.stats-header {
-    display: flex;
-    justify-content: space-between;
-    background: rgba(255,255,255,0.2);
-    padding: 12px;
-    border-radius: 12px;
-    color: white;
-    font-weight: bold;
-    margin-bottom: 20px;
+.btn-correct{background:#2ecc71;}
+.btn-wrong{background:#e74c3c;}
+.choice-btns button:hover{transform:scale(1.08);}
+#feedback{height:40px;margin-top:10px;font-size:1.4rem;font-weight:bold;}
+.nav-grid{margin-top:25px;display:flex;justify-content:center;gap:15px;flex-wrap:wrap;}
+.nav-btn{
+    padding:12px 20px;background:rgba(255,255,255,0.2);border:2px solid #fff;color:white;
+    border-radius:12px;cursor:pointer;font-weight:bold;transition:.25s;
 }
-.question-box {
-    min-height: 140px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.nav-btn:hover{background:white;color:#4a148c;}
+.start-screen,.end-screen{
+    position:absolute;width:100%;height:100%;background:rgba(0,0,0,0.65);
+    display:flex;flex-direction:column;justify-content:center;align-items:center;
+    color:white;animation:fadeIn .8s ease;
 }
-.question-text {
-    font-size: 1.6rem;
-    color: #fff;
-    font-weight: bold;
-    line-height: 1.7;
+.start-btn,.restart-btn{
+    padding:15px 35px;font-size:1.4rem;background:#FFD700;color:#4a148c;border:none;
+    border-radius:12px;cursor:pointer;margin-top:20px;font-weight:bold;transition:.25s;
 }
-.choice-btns {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-top: 15px;
+.start-btn:hover,.restart-btn:hover{transform:scale(1.1);}
+.popup{
+    position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+    background:rgba(255,255,255,0.95);padding:25px;border-radius:15px;
+    width:90%;max-width:400px;box-shadow:0 10px 30px rgba(0,0,0,0.4);z-index:50;display:none;
 }
-.choice-btns button {
-    width: 150px;
-    padding: 14px;
-    font-size: 1.3rem;
-    border-radius: 50px;
-    border: none;
-    cursor: pointer;
-    transition: 0.25s;
-    color: white;
-    font-weight: bold;
+.popup input,.popup select{
+    width:100%;padding:12px;margin:10px 0;font-size:1rem;border-radius:8px;border:1px solid #ccc;
 }
-.btn-correct { background: #2ecc71; }
-.btn-wrong { background: #e74c3c; }
-.choice-btns button:hover {
-    transform: scale(1.08);
+.popup button{
+    padding:10px 20px;background:#4a148c;color:white;border:none;border-radius:8px;
+    cursor:pointer;margin-inline:3px;
 }
-#feedback {
-    height: 40px;
-    margin-top: 10px;
-    font-size: 1.4rem;
-    font-weight: bold;
+.footer-bar{
+    position:fixed;bottom:0;width:100%;background:rgba(255,215,0,0.15);
+    padding:10px 0;text-align:center;font-size:1.2rem;font-weight:bold;color:#FFD700;
+    letter-spacing:3px;z-index:9999;backdrop-filter:blur(6px);
 }
-.nav-grid {
-    margin-top: 25px;
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    flex-wrap: wrap;
-}
-.nav-btn {
-    padding: 12px 20px;
-    background: rgba(255,255,255,0.2);
-    border: 2px solid #fff;
-    color: white;
-    border-radius: 12px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: 0.25s;
-}
-.nav-btn:hover {
-    background: white;
-    color: #4a148c;
-}
-.start-screen, .end-screen {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.65);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    animation: fadeIn 0.8s ease;
-}
-.start-btn, .restart-btn {
-    padding: 15px 35px;
-    font-size: 1.4rem;
-    background: #FFD700;
-    color: #4a148c;
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
-    margin-top: 20px;
-    font-weight: bold;
-    transition: 0.25s;
-}
-.start-btn:hover, .restart-btn:hover {
-    transform: scale(1.1);
-}
-.popup {
-    position: fixed;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    background: rgba(255,255,255,0.95);
-    padding: 25px;
-    border-radius: 15px;
-    width: 90%; max-width: 400px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-    z-index: 50;
-    display: none;
-}
-.popup input, .popup select {
-    width: 100%;
-    padding: 12px;
-    margin: 10px 0;
-    font-size: 1rem;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-}
-.popup button {
-    padding: 10px 20px;
-    background: #4a148c;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    margin-inline: 3px;
-}
-.footer-bar {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    background: rgba(255,215,0,0.15);
-    padding: 10px 0;
-    text-align: center;
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #FFD700;
-    letter-spacing: 3px;
-    z-index: 9999;
-    backdrop-filter: blur(6px);
-}
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to   { opacity: 1; transform: translateY(0); }
-}
-a.admin-link {
-    color: #FFD700;
-    font-size: 0.9rem;
-    margin-top: 10px;
-    display: inline-block;
-    text-decoration: none;
-}
-a.admin-link:hover {
-    text-decoration: underline;
-}
+@keyframes fadeIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+.admin-link{color:#FFD700;font-size:.9rem;margin-top:10px;display:none;text-decoration:none;}
+.admin-link:hover{text-decoration:underline;}
 </style>
 </head>
 
@@ -202,8 +78,11 @@ a.admin-link:hover {
 <!-- START SCREEN -->
 <div class="start-screen" id="startScreen">
     <h1 style="font-size:2.2rem;">مسابقة رمضان - أكاديمية HZ</h1>
+
+    <!-- زر الإدارة (مخفي افتراضيًا) -->
+    <a id="adminLink" href="admin.html" class="admin-link">صفحة إدارة الأسئلة</a>
+
     <button class="start-btn" onclick="startGame()">ابدأ اللعب</button>
-    <a href="admin.html" class="admin-link">صفحة إدارة الأسئلة</a>
 </div>
 
 <!-- END SCREEN -->
@@ -264,149 +143,108 @@ a.admin-link:hover {
 </div>
 
 <script>
-/* ===== questions.js (مشترك) ===== */
+/* إظهار زر الإدارة فقط إذا كان الرابط يحتوي على ?admin=1 */
+const params = new URLSearchParams(window.location.search);
+if (params.get("admin") === "1") {
+    document.getElementById("adminLink").style.display = "inline-block";
+}
+
+/* ===== تخزين الأسئلة ===== */
 const STORAGE_KEY = "hz_ramadan_questions_v1";
 const defaultQuestions = [
-    { q: "يشرع استقبال شهر رمضان بالتوبة النصوح الصادقة من جميع الذنوب.", a: true },
-    { q: "من السنة الاستعداد لرمضان بالمبالغة في شراء الأطعمة والمشروبات.", a: false },
-    { q: "حقيقة الصيام هي حفظ الجوارح عن الآثام وليس مجرد ترك الطعام والشراب.", a: true },
-    { q: "من المخالفات الشائعة ضياع الأوقات في متابعة المسلسلات والقنوات.", a: true },
-    { q: "الأفضل للمصلي في صلاة التراويح أن ينصرف قبل أن يكمل الإمام صلاته.", a: false },
-    { q: "السحور سنة مؤكدة وفيه بركة عظيمة تقوي الصائم على العبادة.", a: true },
-    { q: "من هدي النبي صلى الله عليه وسلم تعجيل الفطر فور ثبوت دخول الوقت.", a: true },
-    { q: "يستحب استقبال شهر رمضان بالشك في دخول الشهر احتياطاً.", a: false },
-    { q: "صون السمع والبصر عن المحرمات واجب على الصائم ليكون صومه حقيقياً.", a: true },
-    { q: "يعتبر الانشغال بغير الطاعات في العشر الأواخر من رمضان من الحرمان.", a: true }
+    { q:"يشرع استقبال شهر رمضان بالتوبة النصوح الصادقة من جميع الذنوب.",a:true },
+    { q:"من السنة الاستعداد لرمضان بالمبالغة في شراء الأطعمة والمشروبات.",a:false },
+    { q:"حقيقة الصيام هي حفظ الجوارح عن الآثام وليس مجرد ترك الطعام والشراب.",a:true },
+    { q:"من المخالفات الشائعة ضياع الأوقات في متابعة المسلسلات والقنوات.",a:true },
+    { q:"الأفضل للمصلي في صلاة التراويح أن ينصرف قبل أن يكمل الإمام صلاته.",a:false }
 ];
-function loadQuestions() {
-    try {
-        const saved = localStorage.getItem(STORAGE_KEY);
-        if (saved) return JSON.parse(saved);
-    } catch(e) { console.warn(e); }
-    return [...defaultQuestions];
+function loadQuestions(){
+    const saved = localStorage.getItem(STORAGE_KEY);
+    return saved ? JSON.parse(saved) : [...defaultQuestions];
 }
-function saveQuestions(questions) {
-    try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(questions));
-    } catch(e) { console.error(e); }
-}
-function resetQuestions() {
-    saveQuestions(defaultQuestions);
-    return loadQuestions();
-}
-/* ===== /questions.js ===== */
+function saveQuestions(q){ localStorage.setItem(STORAGE_KEY, JSON.stringify(q)); }
 
-/* SOUND EFFECTS */
-const sndStart   = new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_1c8d9e3b4d.mp3?filename=start-13693.mp3");
-const sndPopup   = new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_0e3b82466e.mp3?filename=click-124467.mp3");
-const sndSave    = new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_7e8e9e3b4d.mp3?filename=success-1-6297.mp3");
-const sndEnd     = new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_6d7f7dedf8.mp3?filename=finish-13693.mp3");
-const sndCorrect = new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_7e8e9e3b4d.mp3?filename=correct-2-46134.mp3");
-const sndWrong   = new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_6d7f7dedf8.mp3?filename=error-2-46134.mp3");
-const sndNext    = new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_0e3b82466e.mp3?filename=click-124467.mp3");
+/* ===== الأصوات ===== */
+const sndStart=new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_1c8d9e3b4d.mp3?filename=start-13693.mp3");
+const sndPopup=new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_0e3b82466e.mp3?filename=click-124467.mp3");
+const sndSave=new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_7e8e9e3b4d.mp3?filename=success-1-6297.mp3");
+const sndEnd=new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_6d7f7dedf8.mp3?filename=finish-13693.mp3");
+const sndCorrect=new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_7e8e9e3b4d.mp3?filename=correct-2-46134.mp3");
+const sndWrong=new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_6d7f7dedf8.mp3?filename=error-2-46134.mp3");
+const sndNext=new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_0e3b82466e.mp3?filename=click-124467.mp3");
 
-/* QUESTIONS RUNTIME */
+/* ===== منطق اللعبة ===== */
 let questions = loadQuestions();
 let pos = 0;
 let score = 0;
 
-/* DOM ELEMENTS */
-const lvl = document.getElementById("lvl");
-const stg = document.getElementById("stg");
-const qnum = document.getElementById("qnum");
-const qTxt = document.getElementById("q-txt");
-const feedback = document.getElementById("feedback");
-const scoreBox = document.getElementById("score");
+const lvl=document.getElementById("lvl");
+const stg=document.getElementById("stg");
+const qnum=document.getElementById("qnum");
+const qTxt=document.getElementById("q-txt");
+const feedback=document.getElementById("feedback");
+const scoreBox=document.getElementById("score");
 
-document.getElementById("ok-btn").onclick = () => check(true);
-document.getElementById("no-btn").onclick = () => check(false);
+document.getElementById("ok-btn").onclick=()=>check(true);
+document.getElementById("no-btn").onclick=()=>check(false);
 
-/* START GAME */
-function startGame() {
+function startGame(){
     sndStart.play();
-    document.getElementById("startScreen").style.display = "none";
-    document.getElementById("gameCard").style.display = "block";
+    document.getElementById("startScreen").style.display="none";
+    document.getElementById("gameCard").style.display="block";
     render();
 }
-
-/* END GAME */
-function endGame() {
+function endGame(){
     sndEnd.play();
-    document.getElementById("gameCard").style.display = "none";
-    document.getElementById("endScreen").style.display = "flex";
-    document.getElementById("finalScore").textContent = score;
-    document.getElementById("finalPercent").textContent =
-        ((score / (questions.length * 10)) * 100).toFixed(1);
+    document.getElementById("gameCard").style.display="none";
+    document.getElementById("endScreen").style.display="flex";
+    document.getElementById("finalScore").textContent=score;
+    document.getElementById("finalPercent").textContent=((score/(questions.length*10))*100).toFixed(1);
 }
-
-/* RESTART */
-function restart() {
-    pos = 0;
-    score = 0;
-    scoreBox.textContent = 0;
-    document.getElementById("endScreen").style.display = "none";
-    document.getElementById("gameCard").style.display = "block";
+function restart(){
+    pos=0;score=0;scoreBox.textContent=0;
+    document.getElementById("endScreen").style.display="none";
+    document.getElementById("gameCard").style.display="block";
     render();
 }
-
-/* RENDER QUESTION */
-function render() {
-    if (pos >= questions.length) return endGame();
-    const item = questions[pos];
-    lvl.textContent = Math.floor(pos / 5) + 1;
-    stg.textContent = Math.floor(pos / 2) + 1;
-    qnum.textContent = pos + 1;
-    qTxt.textContent = item.q;
-    feedback.textContent = "";
+function render(){
+    if(pos>=questions.length)return endGame();
+    const item=questions[pos];
+    lvl.textContent=Math.floor(pos/5)+1;
+    stg.textContent=Math.floor(pos/2)+1;
+    qnum.textContent=pos+1;
+    qTxt.textContent=item.q;
+    feedback.textContent="";
 }
-
-/* CHECK ANSWER */
-function check(val) {
-    const correct = questions[pos].a;
-    if (val === correct) {
-        feedback.textContent = "إجابة صحيحة";
-        feedback.style.color = "#2ecc71";
-        score += 10;
-        scoreBox.textContent = score;
+function check(val){
+    const correct=questions[pos].a;
+    if(val===correct){
+        feedback.textContent="إجابة صحيحة";
+        feedback.style.color="#2ecc71";
+        score+=10;scoreBox.textContent=score;
         sndCorrect.play();
-    } else {
-        feedback.textContent = "إجابة خاطئة";
-        feedback.style.color = "#e74c3c";
+    }else{
+        feedback.textContent="إجابة خاطئة";
+        feedback.style.color="#e74c3c";
         sndWrong.play();
     }
-    setTimeout(() => {
-        pos++;
-        sndNext.play();
-        render();
-    }, 900);
+    setTimeout(()=>{pos++;sndNext.play();render();},900);
+}
+function go(v){
+    pos=Math.min(Math.max(pos+v,0),questions.length-1);
+    sndNext.play();render();
 }
 
-/* NAVIGATION */
-function go(v) {
-    pos = Math.min(Math.max(pos + v, 0), questions.length - 1);
-    sndNext.play();
-    render();
-}
-
-/* ADD QUESTION POPUP (من داخل صفحة اللعب) */
-function openAdd() {
-    sndPopup.play();
-    document.getElementById("addPopup").style.display = "block";
-}
-function closeAdd() {
-    sndPopup.play();
-    document.getElementById("addPopup").style.display = "none";
-}
-function saveQFromGame() {
-    const q = document.getElementById("newQ").value.trim();
-    const a = document.getElementById("newA").value === "true";
-    if (!q) {
-        alert("الرجاء كتابة السؤال");
-        return;
-    }
-    questions.push({ q, a });
+/* إضافة سؤال من داخل اللعبة */
+function openAdd(){sndPopup.play();document.getElementById("addPopup").style.display="block";}
+function closeAdd(){sndPopup.play();document.getElementById("addPopup").style.display="none";}
+function saveQFromGame(){
+    const q=document.getElementById("newQ").value.trim();
+    const a=document.getElementById("newA").value==="true";
+    if(!q){alert("الرجاء كتابة السؤال");return;}
+    questions.push({q,a});
     saveQuestions(questions);
-    document.getElementById("newQ").value = "";
+    document.getElementById("newQ").value="";
     sndSave.play();
     closeAdd();
     alert("تمت إضافة السؤال بنجاح!");
