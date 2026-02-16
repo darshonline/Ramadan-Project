@@ -6,6 +6,42 @@
 <title>مسابقة رمضان - أكاديمية HZ</title>
 
 <style>
+
+  /* شعار ثابت في أعلى يسار الصفحة */
+.site-logo{
+  position:fixed;
+  top:14px;
+  left:14px;
+  z-index:9999;
+  display:inline-block;
+  width:56px;            /* حجم الشعار الافتراضي */
+  height:56px;
+  border-radius:10px;
+  overflow:hidden;
+  box-shadow:0 6px 18px rgba(0,0,0,0.35);
+  background:rgba(255,255,255,0.02);
+  transition:transform .18s, box-shadow .18s, opacity .18s;
+}
+.site-logo img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+
+/* تأثير عند المرور */
+.site-logo:hover{
+  transform:translateY(-3px) scale(1.03);
+  box-shadow:0 12px 30px rgba(0,0,0,0.45);
+  opacity:0.98;
+}
+
+/* استجابة للشاشات الصغيرة */
+@media (max-width:480px){
+  .site-logo{ width:44px; height:44px; top:10px; left:10px; }
+}
+
+
 /* RESET */
 *{box-sizing:border-box;margin:0;padding:0;font-family:"Cairo",sans-serif}
 
@@ -361,5 +397,6 @@ window.addEventListener('click', ()=>{ // محاولة تشغيل خفيفة ع�
 </script>
 </body>
 </html>
+
 
 
