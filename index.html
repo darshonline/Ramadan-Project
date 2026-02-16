@@ -1,265 +1,238 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>مسابقة رمضان الكبرى - أكاديمية HZ</title>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>مسابقة رمضان الكبرى - أكاديمية HZ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
 
-<style>
-/* المتغيرات الأساسية */
-:root {
-  --primary-gold: #FFD700;
-  --bg-deep: #0f0524;
-  --glass-bg: rgba(255, 255, 255, 0.08);
-  --success-color: #2ecc71;
-  --error-color: #e74c3c;
-  --white: #ffffff;
-}
+    <style>
+        :root {
+            --primary-gold: #FFD700;
+            --bg-deep: #0f0524;
+            --glass: rgba(255, 255, 255, 0.1);
+            --success: #2ecc71;
+            --error: #e74c3c;
+        }
 
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; }
 
-body {
-  background: radial-gradient(circle at center, #2c145a 0%, #050010 100%);
-  min-height: 100vh;
-  overflow-x: hidden;
-  color: var(--white);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
+        body {
+            background: radial-gradient(circle at center, #2c145a 0%, #050010 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
 
-/* الشعار */
-.site-logo {
-  position: fixed; top: 20px; left: 20px; z-index: 1000;
-  width: 80px; height: 80px; border-radius: 18px;
-  border: 2px solid var(--primary-gold); overflow: hidden;
-  box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
-  transition: transform 0.3s ease;
-}
-.site-logo:hover { transform: scale(1.1); }
-.site-logo img { width: 100%; height: 100%; object-fit: cover; }
+        /* الشعار */
+        .site-logo {
+            position: fixed; top: 20px; left: 20px; z-index: 1000;
+            width: 70px; height: 70px; border-radius: 15px;
+            border: 2px solid var(--primary-gold); overflow: hidden;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+        }
+        .site-logo img { width: 100%; height: 100%; object-fit: cover; }
 
-/* تأثيرات الخلفية */
-.stars { position: fixed; inset: 0; background: url('https://www.transparenttextures.com/patterns/stardust.png'); opacity: 0.4; pointer-events: none; }
-.lantern { position: fixed; width: 100px; filter: drop-shadow(0 0 10px var(--primary-gold)); animation: swing 4s ease-in-out infinite; pointer-events: none; z-index: 1; }
-@keyframes swing { 0%, 100% { transform: rotate(-5deg); } 50% { transform: rotate(5deg) translateY(10px); } }
+        /* العناصر الجمالية */
+        .stars { position: fixed; inset: 0; background: url('https://www.transparenttextures.com/patterns/stardust.png'); opacity: 0.4; pointer-events: none; }
+        .lantern { position: fixed; width: 80px; filter: drop-shadow(0 0 10px var(--primary-gold)); animation: swing 4s ease-in-out infinite; pointer-events: none; }
+        @keyframes swing { 0%, 100% { transform: rotate(-5deg); } 50% { transform: rotate(5deg) translateY(10px); } }
 
-/* البطاقات */
-.card {
-  background: var(--glass-bg); backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 30px; padding: 35px; width: 92%; max-width: 600px;
-  text-align: center; box-shadow: 0 25px 50px rgba(0,0,0,0.6);
-  display: none; animation: slideUp 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-  margin-bottom: 80px; /* مسافة للشريط السفلي */
-}
-@keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+        /* البطاقات */
+        .card {
+            background: var(--glass); backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 25px; padding: 30px; width: 92%; max-width: 600px;
+            text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            display: none; animation: fadeIn 0.5s ease;
+        }
 
-/* الأزرار */
-.btn {
-  background: var(--primary-gold); color: #1a0b2e;
-  padding: 14px 40px; border: none; border-radius: 50px;
-  font-weight: 900; cursor: pointer; transition: all 0.3s ease;
-  font-size: 1.1rem; margin-top: 20px;
-}
-.btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(255, 215, 0, 0.4); }
+        /* الأزرار */
+        .btn {
+            background: var(--primary-gold); color: #1a0b2e;
+            padding: 12px 35px; border: none; border-radius: 50px;
+            font-weight: 900; cursor: pointer; transition: 0.3s;
+            font-size: 1.1rem; margin-top: 15px;
+        }
+        .btn:hover { transform: scale(1.05); box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4); }
 
-.choice-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 30px; }
-.choice-btn { padding: 20px; border-radius: 20px; border: none; color: #fff; font-size: 1.3rem; font-weight: 700; cursor: pointer; transition: 0.2s; }
-.btn-correct { background: var(--success-color); }
-.btn-wrong { background: var(--error-color); }
+        input {
+            width: 100%; padding: 12px; margin: 20px 0; border-radius: 10px;
+            border: none; text-align: center; font-size: 1.1rem;
+        }
 
-/* شريط التقدم والمؤقت */
-.progress-container { width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 10px; margin-bottom: 20px; overflow: hidden; }
-.progress-bar { height: 100%; background: var(--primary-gold); width: 0%; transition: width 0.4s ease; }
-.timer-text { font-size: 2rem; font-weight: 900; color: var(--primary-gold); margin-bottom: 10px; }
+        .choice-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 25px; }
+        .choice-btn { padding: 15px; border-radius: 15px; border: none; color: #fff; font-size: 1.2rem; font-weight: bold; cursor: pointer; }
+        .btn-true { background: var(--success); }
+        .btn-false { background: var(--error); }
 
-/* شريط حقوق الملكية */
-.copyright-bar {
-  position: fixed; bottom: 0; left: 0; width: 100%;
-  background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(10px);
-  color: var(--primary-gold); text-align: center; padding: 12px 0;
-  font-size: 0.95rem; font-weight: 700; border-top: 1px solid rgba(255, 215, 0, 0.3);
-  z-index: 2000; letter-spacing: 1px;
-}
+        /* شريط حقوق الملكية */
+        .footer-copyright {
+            position: fixed; bottom: 0; width: 100%; background: rgba(0,0,0,0.7);
+            color: var(--primary-gold); text-align: center; padding: 10px;
+            font-size: 0.9rem; font-weight: bold; border-top: 1px solid var(--primary-gold);
+            z-index: 1001;
+        }
 
-/* التجاوب مع الجوال */
-@media (max-width: 480px) {
-  .choice-btns { grid-template-columns: 1fr; }
-  .card { padding: 25px; }
-  .site-logo { width: 60px; height: 60px; }
-}
-</style>
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
 </head>
 <body>
 
-<a href="index.html" class="site-logo">
-  <img src="HZ-Academy.jpg" alt="Logo">
-</a>
+    <a href="index.html" class="site-logo">
+        <img src="HZ-Academy.jpg" alt="Logo">
+    </a>
 
-<div class="stars"></div>
-<img src="lantern.png" class="lantern" style="right: 5%; top: 5%;">
-<img src="lantern.png" class="lantern" style="left: 3%; top: 15%; width: 70px;">
+    <div class="stars"></div>
+    <img src="lantern.png" class="lantern" style="right: 5%; top: 5%;">
+    <img src="lantern.png" class="lantern" style="left: 5%; top: 10%; width: 60px;">
 
-<div id="screen-id" class="card" style="display: block;">
-  <h2 style="color: var(--primary-gold); margin-bottom: 15px;">رمضان مبارك 🌙</h2>
-  <p>أهلاً بك في تحدي المعلومات الرمضانية</p>
-  <input type="text" id="playerName" placeholder="اكتب اسمك هنا..." style="width: 100%; padding: 15px; margin: 25px 0; border-radius: 15px; border: none; text-align: center; font-size: 1.1rem; background: rgba(255,255,255,0.9);">
-  <button class="btn" onclick="goToStart()">دخول المسابقة</button>
-</div>
+    <div id="screen-welcome" class="card" style="display: block;">
+        <h2 style="color: var(--primary-gold)">أهلاً بك في مسابقة رمضان 🌙</h2>
+        <p>لطفاً أدخل اسمك لبدء التحدي</p>
+        <input type="text" id="playerName" placeholder="اسمك الكريم...">
+        <button class="btn" onclick="goToStart()">دخول المسابقة</button>
+    </div>
 
-<div id="screen-start" class="card">
-  <h1 style="margin-bottom: 15px;">مسابقة أكاديمية HZ</h1>
-  <p>لديك 20 ثانية لكل سؤال. هل أنت مستعد؟</p>
-  <br>
-  <button class="btn" onclick="startGame()">ابدأ اللعب الآن</button>
-</div>
+    <div id="screen-ready" class="card">
+        <h1 id="welcome-msg"></h1>
+        <p>لديك 20 ثانية لكل سؤال. هل أنت مستعد؟</p>
+        <button class="btn" onclick="startGame()">ابدأ اللعب الآن</button>
+    </div>
 
-<div id="screen-game" class="card">
-  <div class="timer-text" id="timer">20</div>
-  <div class="progress-container"><div class="progress-bar" id="p-bar"></div></div>
-  
-  <div style="display: flex; justify-content: space-between; margin-bottom: 15px; font-weight: 700;">
-    <span>السؤال: <span id="q-idx">1</span></span>
-    <span>النقاط: <span id="score-val">0</span></span>
-  </div>
+    <div id="screen-game" class="card">
+        <div id="timer" style="font-size: 2rem; color: var(--primary-gold); font-weight: 900;">20</div>
+        <div style="display: flex; justify-content: space-between; margin: 15px 0;">
+            <span>السؤال: <span id="q-idx">1</span></span>
+            <span>النقاط: <span id="score">0</span></span>
+        </div>
+        <h2 id="q-text" style="min-height: 100px;">...</h2>
+        <div class="choice-btns">
+            <button class="choice-btn btn-true" onclick="checkAnswer(true)">صحيح ✓</button>
+            <button class="choice-btn btn-false" onclick="checkAnswer(false)">خاطئ ✗</button>
+        </div>
+        <div id="feedback" style="margin-top: 15px; font-weight: bold; height: 30px;"></div>
+    </div>
 
-  <h2 id="question-box" style="min-height: 90px; line-height: 1.5;">...</h2>
+    <div id="screen-result" class="card">
+        <h2 style="color: var(--primary-gold)">تقبل الله طاعتكم</h2>
+        <div style="background: #fff; color: #333; padding: 20px; border-radius: 15px; margin: 20px 0;">
+            <p>تشهد أكاديمية HZ بأن البطل:</p>
+            <h3 id="res-name" style="color: #c0392b; font-size: 1.5rem;"></h3>
+            <p>قد أتم المسابقة بنتيجة:</p>
+            <h2 id="res-score" style="color: var(--success)"></h2>
+        </div>
+        <button class="btn" onclick="location.reload()">إعادة المحاولة</button>
+    </div>
 
-  <div class="choice-btns">
-    <button class="choice-btn btn-correct" onclick="check(true)">صحيح ✓</button>
-    <button class="choice-btn btn-wrong" onclick="check(false)">خاطئ ✗</button>
-  </div>
-  <div id="feedback" style="margin-top: 15px; font-weight: 900; height: 25px;"></div>
-</div>
+    <div class="footer-copyright">
+        جميع الحقوق محفوظة © <span id="year"></span> | تم التطوير بواسطة محمد مصطفى
+    </div>
 
-<div id="screen-end" class="card">
-  <div style="background: #fff; color: #1a0b2e; padding: 30px; border-radius: 20px; border: 4px double var(--primary-gold);">
-    <p style="font-weight: 700;">شهادة إنجاز</p>
-    <h2 id="res-name" style="font-size: 1.8rem; margin: 15px 0; color: #c0392b;">-</h2>
-    <p>أنهى الاختبار الرمضاني بنسبة:</p>
-    <h1 id="res-percent" style="font-size: 3rem; color: var(--success-color);">0%</h1>
-    <p id="res-rank" style="font-weight: 900; margin-top: 10px;"></p>
-  </div>
-  <button class="btn" onclick="location.reload()">لعب مرة أخرى</button>
-</div>
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
 
-<footer class="copyright-bar">
-  جميع الحقوق محفوظة © <span id="year"></span> | تم التطوير بواسطة محمد مصطفى
-</footer>
+        // الأصوات
+        const sounds = {
+            correct: new Audio('https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3'),
+            wrong: new Audio('https://assets.mixkit.co/active_storage/sfx/2347/2347-preview.mp3'),
+            start: new Audio('https://assets.mixkit.co/active_storage/sfx/2305/2305-preview.mp3')
+        };
 
-<script>
-// تحديث السنة تلقائياً
-document.getElementById('year').textContent = new Date().getFullYear();
+        let questions = [];
+        let currentIdx = 0;
+        let score = 0;
+        let timer = 20;
+        let timerInterval;
+        let playerName = "";
 
-// أصوات رمضانية
-const sfx = {
-  start: new Audio('https://assets.mixkit.co/active_storage/sfx/2305/2305-preview.mp3'), // صوت دف
-  correct: new Audio('https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3'), // رنة نجاح
-  wrong: new Audio('https://assets.mixkit.co/active_storage/sfx/2347/2347-preview.mp3'), // رنة خطأ هادئة
-  tick: new Audio('https://assets.mixkit.co/active_storage/sfx/2544/2544-preview.mp3') // تكة الساعة
-};
+        function showScreen(id) {
+            document.querySelectorAll('.card').forEach(c => c.style.display = 'none');
+            document.getElementById(id).style.display = 'block';
+        }
 
-let questions = [];
-let currentIdx = 0;
-let score = 0;
-let timer = 20;
-let timerInterval;
+        // إصلاح زر الدخول
+        function goToStart() {
+            playerName = document.getElementById('playerName').value.trim();
+            if(!playerName) {
+                alert("من فضلك أدخل اسمك أولاً");
+                return;
+            }
+            document.getElementById('welcome-msg').innerText = "مرحباً بك يا " + playerName;
+            showScreen('screen-ready');
+        }
 
-function showScreen(id) {
-  document.querySelectorAll('.card').forEach(c => c.style.display = 'none');
-  document.getElementById(id).style.display = 'block';
-}
+        async function startGame() {
+            try {
+                const res = await fetch('questions.json');
+                questions = await res.json();
+                questions.sort(() => Math.random() - 0.5); // خلط الأسئلة
+                
+                sounds.start.play().catch(e => console.log("Sound error"));
+                showScreen('screen-game');
+                loadQuestion();
+            } catch (e) {
+                alert("خطأ: لم يتم العثور على ملف الأسئلة questions.json");
+            }
+        }
 
-function goToStart() {
-  if(!document.getElementById('playerName').value.trim()) return alert("لطفاً أدخل اسمك");
-  showScreen('screen-start');
-}
+        function loadQuestion() {
+            if(currentIdx >= questions.length) return endQuiz();
+            
+            document.getElementById('q-text').innerText = questions[currentIdx].q;
+            document.getElementById('q-idx').innerText = currentIdx + 1;
+            document.getElementById('feedback').innerText = "";
+            startTimer();
+        }
 
-async function startGame() {
-  try {
-    const res = await fetch('questions.json?v=' + Date.now());
-    questions = await res.json();
-    questions.sort(() => Math.random() - 0.5); // خلط عشوائي
-    sfx.start.play();
-    showScreen('screen-game');
-    render();
-  } catch (e) { alert("تأكد من وجود ملف questions.json بجانب الصفحة"); }
-}
+        function startTimer() {
+            timer = 20;
+            document.getElementById('timer').innerText = timer;
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                timer--;
+                document.getElementById('timer').innerText = timer;
+                if(timer <= 0) {
+                    clearInterval(timerInterval);
+                    checkAnswer(null);
+                }
+            }, 1000);
+        }
 
-function render() {
-  if(currentIdx >= questions.length) return finish();
-  
-  const q = questions[currentIdx];
-  document.getElementById('question-box').textContent = q.q;
-  document.getElementById('q-idx').textContent = currentIdx + 1;
-  document.getElementById('feedback').textContent = "";
-  
-  // شريط التقدم
-  document.getElementById('p-bar').style.width = ((currentIdx) / questions.length * 100) + "%";
+        function checkAnswer(ans) {
+            clearInterval(timerInterval);
+            const correct = questions[currentIdx].a;
+            const feedback = document.getElementById('feedback');
 
-  startTimer();
-}
+            if(ans === correct) {
+                score += 10;
+                feedback.innerText = "إجابة صحيحة! أحسنت 🌟";
+                feedback.style.color = "var(--success)";
+                sounds.correct.play().catch(e => {});
+            } else {
+                feedback.innerText = ans === null ? "انتهى الوقت! ⏰" : "إجابة خاطئة ✗";
+                feedback.style.color = "var(--error)";
+                sounds.wrong.play().catch(e => {});
+            }
 
-function startTimer() {
-  timer = 20;
-  document.getElementById('timer').textContent = timer;
-  clearInterval(timerInterval);
-  timerInterval = setInterval(() => {
-    timer--;
-    document.getElementById('timer').textContent = timer;
-    if(timer <= 5) { 
-      document.getElementById('timer').style.color = "red";
-      sfx.tick.play();
-    } else {
-      document.getElementById('timer').style.color = "var(--primary-gold)";
-    }
-    if(timer <= 0) { clearInterval(timerInterval); check(null); }
-  }, 1000);
-}
+            document.getElementById('score').innerText = score;
+            
+            setTimeout(() => {
+                currentIdx++;
+                loadQuestion();
+            }, 1500);
+        }
 
-function check(ans) {
-  clearInterval(timerInterval);
-  const correct = questions[currentIdx].a;
-  const feed = document.getElementById('feedback');
-
-  if(ans === correct) {
-    score += 10;
-    feed.textContent = "إجابة صحيحة! تقبل الله 🌙";
-    feed.style.color = var(--success-color);
-    sfx.correct.play();
-  } else {
-    feed.textContent = ans === null ? "انتهى الوقت! ⏰" : "للأسف، إجابة خاطئة ✗";
-    feed.style.color = var(--error-color);
-    sfx.wrong.play();
-  }
-
-  document.getElementById('score-val').textContent = score;
-  
-  setTimeout(() => {
-    currentIdx++;
-    render();
-  }, 1500);
-}
-
-function finish() {
-  showScreen('screen-end');
-  const name = document.getElementById('playerName').value;
-  const percent = (score / (questions.length * 10)) * 100;
-  
-  document.getElementById('res-name').textContent = name;
-  document.getElementById('res-percent').textContent = percent.toFixed(0) + "%";
-  
-  let rank = "";
-  if(percent >= 90) rank = "🏆 ممتاز جداً - زادك الله علماً";
-  else if(percent >= 70) rank = "🌟 جيد جداً - أداء رائع";
-  else if(percent >= 50) rank = "👍 جيد - واصل القراءة";
-  else rank = "🌙 محاولة مباركة - رمضان فرصة للتعلم";
-  
-  document.getElementById('res-rank').textContent = rank;
-}
-</script>
+        function endQuiz() {
+            showScreen('screen-result');
+            document.getElementById('res-name').innerText = playerName;
+            const percent = (score / (questions.length * 10)) * 100;
+            document.getElementById('res-score').innerText = score + " نقطة (" + percent.toFixed(0) + "%)";
+        }
+    </script>
 </body>
 </html>
