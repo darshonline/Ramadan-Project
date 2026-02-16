@@ -89,8 +89,14 @@ if(pass !== "HZ2025"){
 let questions = [];
 
 async function loadQuestions(){
-    const res = await fetch("questions.json?nocache=" + Date.now());
-    questions = await res.json();
+    try {
+        const res = await fetch("questions.json?nocache=" + Date.now());
+        if (!res.ok) throw new Error("JSON not found");
+        questions = await res.json();
+    } catch (e) {
+        alert("تعذر تحميل ملف الأسئلة. تأكد من وجود questions.json في نفس المجلد.");
+        questions = [];
+    }
     renderTable();
 }
 
@@ -150,3 +156,34 @@ function renderTable(){
 
         tbody.appendChild(tr);
     });
+}
+
+/* إضافة صف جديد */
+function addRow(){
+    questions.push({q:"",a:true});
+    renderTable();
+}
+
+/* إعادة الأسئلة الافتراضية */
+function resetAll(){
+    if(!confirm("سيتم استرجاع الأسئلة الافتراضية وحذف التعديلات، هل أنت متأكد؟")) return;
+    questions = [...defaultQuestions];
+    renderTable();
+}
+
+/* تنزيل ملف JSON */
+function downloadJSON(){
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(questions, null, 4));
+    const dl = document.createElement("a");
+    dl.setAttribute("href", dataStr);
+    dl.setAttribute("download", "questions.json");
+    dl.click();
+    alert("تم إنشاء ملف الأسئلة الجديد — قم برفعه إلى GitHub لاستبدال الملف القديم.");
+}
+
+/* تحميل الأسئلة عند فتح الصفحة */
+loadQuestions();
+</script>
+
+</body>
+</html>
