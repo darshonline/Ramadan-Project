@@ -3,104 +3,145 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>أكاديمية HZ - مسابقة رمضان</title>
+<title>مسابقة رمضان - أكاديمية HZ</title>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:"Cairo",sans-serif;}
-body{
-    background:linear-gradient(135deg,#4a148c,#12002f);
-    height:100vh;display:flex;justify-content:center;align-items:center;overflow:hidden;
+/* RESET */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Cairo", sans-serif;
 }
 
-/* USERNAME SCREEN */
-.username-screen{
-    position:absolute;width:100%;height:100%;
-    background:rgba(0,0,0,0.65);
-    display:flex;flex-direction:column;justify-content:center;align-items:center;
-    color:white;animation:fadeIn .8s ease;
+/* ===== خلفية رمضانية متحركة ===== */
+body{
+    overflow:hidden;
+    background:#0a0018;
+    height:100vh;
+    width:100vw;
+    position:relative;
 }
+
+/* نجوم لامعة */
+.stars{
+    position:absolute;
+    width:100%;
+    height:100%;
+    background:url('https://i.imgur.com/9yG7T8u.png');
+    background-size:cover;
+    animation: twinkle 6s infinite alternate ease-in-out;
+    opacity:0.7;
+}
+
+@keyframes twinkle{
+    from{opacity:0.4;}
+    to{opacity:1;}
+}
+
+/* فوانيس متحركة */
+.lantern{
+    position:absolute;
+    width:120px;
+    animation: float 6s ease-in-out infinite;
+    opacity:0.9;
+}
+
+.lantern:nth-child(1){
+    left:10%;
+    top:5%;
+    animation-duration:7s;
+}
+.lantern:nth-child(2){
+    right:12%;
+    top:15%;
+    animation-duration:5.5s;
+}
+.lantern:nth-child(3){
+    left:45%;
+    top:8%;
+    animation-duration:6.5s;
+}
+
+@keyframes float{
+    0%{transform:translateY(0px);}
+    50%{transform:translateY(25px);}
+    100%{transform:translateY(0px);}
+}
+
+/* ===== شاشة إدخال الاسم ===== */
+.username-screen{
+    position:absolute;
+    top:0;left:0;
+    width:100%;height:100%;
+    background:rgba(0,0,0,0.65);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    animation:fadeIn 1s ease;
+}
+
 .username-box{
     background:rgba(255,255,255,0.15);
-    padding:25px;border-radius:20px;
+    padding:30px;
+    border-radius:20px;
     backdrop-filter:blur(10px);
-    width:90%;max-width:350px;text-align:center;
+    width:90%;
+    max-width:350px;
+    text-align:center;
+    color:white;
+    box-shadow:0 10px 30px rgba(0,0,0,0.5);
 }
+
+.username-box h2{
+    margin-bottom:15px;
+    font-size:1.6rem;
+}
+
 .username-box input{
-    width:100%;padding:12px;font-size:1.1rem;border-radius:10px;border:none;margin-top:10px;
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    margin-top:10px;
+    font-size:1.1rem;
 }
+
 .username-box button{
-    margin-top:15px;padding:12px 25px;font-size:1.2rem;
-    background:#FFD700;color:#4a148c;border:none;border-radius:10px;
-    cursor:pointer;font-weight:bold;
+    margin-top:15px;
+    padding:12px 25px;
+    font-size:1.2rem;
+    background:#FFD700;
+    color:#4a148c;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:bold;
+    transition:0.25s;
 }
 
-/* START SCREEN */
-.start-screen,.end-screen{
-    position:absolute;width:100%;height:100%;background:rgba(0,0,0,0.65);
-    display:flex;flex-direction:column;justify-content:center;align-items:center;
-    color:white;animation:fadeIn .8s ease;
-}
-.start-btn,.restart-btn{
-    padding:15px 35px;font-size:1.4rem;background:#FFD700;color:#4a148c;border:none;
-    border-radius:12px;cursor:pointer;margin-top:20px;font-weight:bold;transition:.25s;
-}
-.start-btn:hover,.restart-btn:hover{transform:scale(1.1);}
-
-/* GAME CARD */
-.game-card{
-    width:95%;max-width:600px;padding:30px;border-radius:25px;
-    background:rgba(255,255,255,0.15);backdrop-filter:blur(12px);
-    border:1px solid rgba(255,255,255,0.3);box-shadow:0 20px 50px rgba(0,0,0,0.4);
-    text-align:center;display:none;animation:fadeIn .8s ease;
-}
-.logo-header{width:110px;margin-bottom:15px;border-radius:15px;box-shadow:0 5px 15px rgba(0,0,0,0.4);}
-.stats-header{
-    display:flex;justify-content:space-between;background:rgba(255,255,255,0.2);
-    padding:12px;border-radius:12px;color:white;font-weight:bold;margin-bottom:20px;
-}
-.question-box{min-height:140px;display:flex;justify-content:center;align-items:center;}
-.question-text{font-size:1.6rem;color:#fff;font-weight:bold;line-height:1.7;}
-.choice-btns{display:flex;justify-content:center;gap:20px;margin-top:15px;}
-.choice-btns button{
-    width:150px;padding:14px;font-size:1.3rem;border-radius:50px;border:none;
-    cursor:pointer;transition:.25s;color:white;font-weight:bold;
-}
-.btn-correct{background:#2ecc71;}
-.btn-wrong{background:#e74c3c;}
-.choice-btns button:hover{transform:scale(1.08);}
-#feedback{height:40px;margin-top:10px;font-size:1.4rem;font-weight:bold;}
-.nav-grid{margin-top:25px;display:flex;justify-content:center;gap:15px;flex-wrap:wrap;}
-.nav-btn{
-    padding:12px 20px;background:rgba(255,255,255,0.2);border:2px solid #fff;color:white;
-    border-radius:12px;cursor:pointer;font-weight:bold;transition:.25s;
-}
-.nav-btn:hover{background:white;color:#4a148c;}
-
-/* CERTIFICATE */
-.certificate{
-    background:white;color:#4a148c;padding:30px;border-radius:20px;
-    width:90%;max-width:500px;text-align:center;
-    box-shadow:0 10px 30px rgba(0,0,0,0.4);
-}
-.certificate h2{margin-bottom:10px;}
-.certificate p{font-size:1.2rem;margin:8px 0;}
-
-/* FOOTER */
-.footer-bar{
-    position:fixed;bottom:0;width:100%;background:rgba(255,215,0,0.15);
-    padding:10px 0;text-align:center;font-size:1.2rem;font-weight:bold;color:#FFD700;
-    letter-spacing:3px;z-index:9999;backdrop-filter:blur(6px);
+.username-box button:hover{
+    transform:scale(1.08);
 }
 
-@keyframes fadeIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
-.admin-link{color:#FFD700;font-size:.9rem;margin-top:10px;display:none;text-decoration:none;}
-.admin-link:hover{text-decoration:underline;}
+@keyframes fadeIn{
+    from{opacity:0; transform:translateY(20px);}
+    to{opacity:1; transform:translateY(0);}
+}
 </style>
 </head>
 
 <body>
 
-<!-- USERNAME SCREEN -->
+<!-- خلفية النجوم -->
+<div class="stars"></div>
+
+<!-- فوانيس -->
+<img src="https://i.imgur.com/7yqYk2P.png" class="lantern">
+<img src="https://i.imgur.com/7yqYk2P.png" class="lantern">
+<img src="https://i.imgur.com/7yqYk2P.png" class="lantern">
+
+<!-- شاشة إدخال الاسم -->
 <div class="username-screen" id="usernameScreen">
     <div class="username-box">
         <h2>أدخل اسمك للبدء</h2>
@@ -108,44 +149,94 @@ body{
         <button onclick="saveUsername()">متابعة</button>
     </div>
 </div>
-
-<!-- START SCREEN -->
+<!-- شاشة البداية -->
 <div class="start-screen" id="startScreen" style="display:none;">
-    <h1 style="font-size:2.2rem;">مسابقة رمضان - أكاديمية HZ</h1>
+    <div class="start-box">
+        <h1 class="title">مسابقة رمضان - أكاديمية HZ</h1>
 
-    <a id="adminLink" href="admin.html" class="admin-link">صفحة إدارة الأسئلة</a>
+        <button class="start-btn" onclick="startGame()">ابدأ اللعب</button>
 
-    <button class="start-btn" onclick="startGame()">ابدأ اللعب</button>
-</div>
-
-<!-- END SCREEN -->
-<div class="end-screen" id="endScreen" style="display:none;">
-    <div class="certificate">
-        <h2>شهادة إتمام الاختبار</h2>
-        <p>الاسم: <span id="certName"></span></p>
-        <p>الدرجة: <span id="certScore"></span></p>
-        <p>نسبة النجاح: <span id="certPercent"></span>%</p>
+        <a href="admin.html" class="admin-link">صفحة إدارة الأسئلة</a>
     </div>
-    <button class="restart-btn" onclick="restart()">إعادة اللعب</button>
 </div>
 
-<!-- MAIN GAME CARD -->
-<div class="game-card" id="gameCard">
+<style>
+/* ===== شاشة البداية ===== */
+.start-screen{
+    position:absolute;
+    top:0;left:0;
+    width:100%;height:100%;
+    background:rgba(0,0,0,0.65);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    animation:fadeIn 1s ease;
+}
 
-    <img src="https://play-lh.googleusercontent.com/stOVsZ7_FvO4l1IsXETqYvoTHMtU7AXhuFNxTZig6QgbrZyicpID3bXWjVTxZ-Be5nSd"
-         class="logo-header">
+.start-box{
+    background:rgba(255,255,255,0.15);
+    padding:35px;
+    border-radius:20px;
+    backdrop-filter:blur(10px);
+    width:90%;
+    max-width:400px;
+    text-align:center;
+    color:white;
+    box-shadow:0 10px 30px rgba(0,0,0,0.5);
+}
 
+.title{
+    font-size:2rem;
+    margin-bottom:20px;
+}
+
+.start-btn{
+    padding:15px 35px;
+    font-size:1.4rem;
+    background:#FFD700;
+    color:#4a148c;
+    border:none;
+    border-radius:12px;
+    cursor:pointer;
+    font-weight:bold;
+    transition:0.25s;
+}
+
+.start-btn:hover{
+    transform:scale(1.1);
+}
+
+.admin-link{
+    display:block;
+    margin-top:15px;
+    color:#FFD700;
+    font-size:0.9rem;
+    text-decoration:none;
+}
+.admin-link:hover{text-decoration:underline;}
+</style>
+
+<!-- شاشة اللعبة -->
+<div class="game-card" id="gameCard" style="display:none;">
+
+    <!-- المؤقّت -->
+    <div class="timer-box">
+        <span>الوقت المتبقي:</span>
+        <span id="timer" class="timer">20</span>
+    </div>
+
+    <!-- معلومات -->
     <div class="stats-header">
-        <div>المستوى: <span id="lvl">1</span></div>
-        <div>المرحلة: <span id="stg">1</span></div>
         <div>السؤال: <span id="qnum">1</span></div>
         <div>النقاط: <span id="score">0</span></div>
     </div>
 
+    <!-- السؤال -->
     <div class="question-box">
         <div id="q-txt" class="question-text">جاري التحميل...</div>
     </div>
 
+    <!-- الأزرار -->
     <div class="choice-btns">
         <button id="ok-btn" class="btn-correct">صحيح</button>
         <button id="no-btn" class="btn-wrong">خاطئ</button>
@@ -153,27 +244,171 @@ body{
 
     <div id="feedback"></div>
 
-    <div class="nav-grid">
-        <button class="nav-btn" onclick="go(1)">السؤال التالي</button>
-        <button class="nav-btn" onclick="go(-1)">السؤال السابق</button>
-    </div>
-
 </div>
 
-<!-- FOOTER -->
-<div class="footer-bar">
-    ✦ إعداد وتصميم محمد مصطفى ✦
-</div>
-
-<script>
-/* إظهار زر الإدارة فقط إذا كان الرابط يحتوي على ?admin=1 */
-const params = new URLSearchParams(window.location.search);
-if (params.get("admin") === "1") {
-    document.getElementById("adminLink").style.display = "inline-block";
+<style>
+/* ===== شاشة اللعبة ===== */
+.game-card{
+    position:absolute;
+    top:50%;left:50%;
+    transform:translate(-50%, -50%);
+    width:90%;
+    max-width:600px;
+    padding:30px;
+    border-radius:25px;
+    background:rgba(255,255,255,0.15);
+    backdrop-filter:blur(12px);
+    border:1px solid rgba(255,255,255,0.3);
+    box-shadow:0 20px 50px rgba(0,0,0,0.4);
+    text-align:center;
+    animation:fadeIn 1s ease;
 }
 
-/* تحميل الأسئلة من ملف JSON */
+.timer-box{
+    background:rgba(0,0,0,0.4);
+    padding:10px;
+    border-radius:12px;
+    color:#FFD700;
+    font-size:1.3rem;
+    margin-bottom:15px;
+    font-weight:bold;
+}
+
+.timer{
+    font-size:1.6rem;
+    margin-right:5px;
+}
+
+.stats-header{
+    display:flex;
+    justify-content:space-between;
+    background:rgba(255,255,255,0.2);
+    padding:12px;
+    border-radius:12px;
+    color:white;
+    font-weight:bold;
+    margin-bottom:20px;
+}
+
+.question-box{
+    min-height:140px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.question-text{
+    font-size:1.6rem;
+    color:#fff;
+    font-weight:bold;
+    line-height:1.7;
+    animation:fadeIn 0.8s ease;
+}
+
+.choice-btns{
+    display:flex;
+    justify-content:center;
+    gap:20px;
+    margin-top:15px;
+}
+
+.choice-btns button{
+    width:150px;
+    padding:14px;
+    font-size:1.3rem;
+    border-radius:50px;
+    border:none;
+    cursor:pointer;
+    transition:0.25s;
+    color:white;
+    font-weight:bold;
+}
+
+.btn-correct{background:#2ecc71;}
+.btn-wrong{background:#e74c3c;}
+
+.choice-btns button:hover{
+    transform:scale(1.08);
+}
+
+#feedback{
+    height:40px;
+    margin-top:10px;
+    font-size:1.4rem;
+    font-weight:bold;
+}
+</style>
+
+<!-- شاشة النهاية -->
+<div class="end-screen" id="endScreen" style="display:none;">
+    <div class="certificate">
+        <h2>شهادة إتمام الاختبار</h2>
+        <p>الاسم: <span id="certName"></span></p>
+        <p>الدرجة: <span id="certScore"></span></p>
+        <p>النسبة: <span id="certPercent"></span>%</p>
+    </div>
+
+    <button class="restart-btn" onclick="restart()">إعادة اللعب</button>
+</div>
+
+<style>
+/* ===== شاشة النهاية ===== */
+.end-screen{
+    position:absolute;
+    top:0;left:0;
+    width:100%;height:100%;
+    background:rgba(0,0,0,0.65);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    animation:fadeIn 1s ease;
+}
+
+.certificate{
+    background:white;
+    color:#4a148c;
+    padding:30px;
+    border-radius:20px;
+    width:90%;
+    max-width:450px;
+    text-align:center;
+    box-shadow:0 10px 30px rgba(0,0,0,0.4);
+}
+
+.restart-btn{
+    margin-top:20px;
+    padding:15px 35px;
+    font-size:1.4rem;
+    background:#FFD700;
+    color:#4a148c;
+    border:none;
+    border-radius:12px;
+    cursor:pointer;
+    font-weight:bold;
+    transition:0.25s;
+}
+
+.restart-btn:hover{
+    transform:scale(1.1);
+}
+</style>
+<script>
+/* ===========================
+      الأصوات الرمضانية
+=========================== */
+const sndStart = new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_1c8d9e3b4d.mp3?filename=start-13693.mp3");
+const sndEnd = new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_6d7f7dedf8.mp3?filename=finish-13693.mp3");
+const sndCorrect = new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_7e8e9e3b4d.mp3?filename=correct-2-46134.mp3");
+const sndWrong = new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_6d7f7dedf8.mp3?filename=error-2-46134.mp3");
+const sndNext = new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_0e3b82466e.mp3?filename=click-124467.mp3");
+const sndTimeUp = new Audio("https://cdn.pixabay.com/download/audio/2021/09/06/audio_4e0a1e3b4d.mp3?filename=drum-hit-1-100bpm-8801.mp3");
+
+/* ===========================
+      تحميل الأسئلة
+=========================== */
 let questions = [];
+
 async function loadQuestions(){
     try {
         const res = await fetch("questions.json?nocache=" + Date.now());
@@ -185,88 +420,160 @@ async function loadQuestions(){
     }
 }
 
-/* الأصوات */
-const sndStart=new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_1c8d9e3b4d.mp3?filename=start-13693.mp3");
-const sndEnd=new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_6d7f7dedf8.mp3?filename=finish-13693.mp3");
-const sndCorrect=new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_7e8e9e3b4d.mp3?filename=correct-2-46134.mp3");
-const sndWrong=new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_6d7f7dedf8.mp3?filename=error-2-46134.mp3");
-const sndNext=new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_0e3b82466e.mp3?filename=click-124467.mp3");
+/* ===========================
+      المتغيرات الأساسية
+=========================== */
+let pos = 0;
+let score = 0;
+let username = "";
+let timer = 20;
+let timerInterval;
 
-/* منطق اللعبة */
-let pos=0;
-let score=0;
-let username="";
-
+/* ===========================
+      حفظ الاسم
+=========================== */
 function saveUsername(){
-    const input=document.getElementById("usernameInput").value.trim();
-    if(!input){alert("الرجاء إدخال الاسم");return;}
-    username=input;
-    document.getElementById("usernameScreen").style.display="none";
-    document.getElementById("startScreen").style.display="flex";
+    const input = document.getElementById("usernameInput").value.trim();
+    if(!input){
+        alert("الرجاء إدخال الاسم");
+        return;
+    }
+    username = input;
+
+    document.getElementById("usernameScreen").style.display = "none";
+    document.getElementById("startScreen").style.display = "flex";
 }
 
-const lvl=document.getElementById("lvl");
-const stg=document.getElementById("stg");
-const qnum=document.getElementById("qnum");
-const qTxt=document.getElementById("q-txt");
-const feedback=document.getElementById("feedback");
-const scoreBox=document.getElementById("score");
-
-document.getElementById("ok-btn").onclick=()=>check(true);
-document.getElementById("no-btn").onclick=()=>check(false);
-
+/* ===========================
+      بدء اللعبة
+=========================== */
 async function startGame(){
     sndStart.play();
     await loadQuestions();
-    document.getElementById("startScreen").style.display="none";
-    document.getElementById("gameCard").style.display="block";
+
+    pos = 0;
+    score = 0;
+
+    document.getElementById("startScreen").style.display = "none";
+    document.getElementById("gameCard").style.display = "block";
+
     render();
+    startTimer();
 }
 
-function endGame(){
-    sndEnd.play();
-    document.getElementById("gameCard").style.display="none";
-    document.getElementById("endScreen").style.display="flex";
+/* ===========================
+      المؤقّت
+=========================== */
+function startTimer(){
+    timer = 20;
+    document.getElementById("timer").textContent = timer;
 
-    document.getElementById("certName").textContent=username;
-    document.getElementById("certScore").textContent=score;
-    document.getElementById("certPercent").textContent=((score/(questions.length*10))*100).toFixed(1);
+    clearInterval(timerInterval);
+
+    timerInterval = setInterval(()=>{
+        timer--;
+        document.getElementById("timer").textContent = timer;
+
+        if(timer <= 0){
+            clearInterval(timerInterval);
+            sndTimeUp.play();
+            handleTimeUp();
+        }
+    },1000);
 }
 
-function restart(){
-    pos=0;score=0;scoreBox.textContent=0;
-    document.getElementById("endScreen").style.display="none";
-    document.getElementById("startScreen").style.display="flex";
+function handleTimeUp(){
+    // يعتبر السؤال خطأ
+    feedback.textContent = "انتهى الوقت!";
+    feedback.style.color = "#e74c3c";
+
+    setTimeout(()=>{
+        pos++;
+        sndNext.play();
+        render();
+        startTimer();
+    },900);
 }
+
+/* ===========================
+      عرض السؤال
+=========================== */
+const qTxt = document.getElementById("q-txt");
+const qnum = document.getElementById("qnum");
+const scoreBox = document.getElementById("score");
+const feedback = document.getElementById("feedback");
 
 function render(){
-    if(pos>=questions.length)return endGame();
-    const item=questions[pos];
-    lvl.textContent=Math.floor(pos/5)+1;
-    stg.textContent=Math.floor(pos/2)+1;
-    qnum.textContent=pos+1;
-    qTxt.textContent=item.q;
-    feedback.textContent="";
+    if(pos >= questions.length){
+        return endGame();
+    }
+
+    const item = questions[pos];
+
+    qTxt.textContent = item.q;
+    qnum.textContent = pos + 1;
+    feedback.textContent = "";
+
+    // حركة ظهور السؤال
+    qTxt.style.animation = "fadeIn 0.8s ease";
 }
+
+/* ===========================
+      التحقق من الإجابة
+=========================== */
+document.getElementById("ok-btn").onclick = ()=>check(true);
+document.getElementById("no-btn").onclick = ()=>check(false);
 
 function check(val){
-    const correct=questions[pos].a;
-    if(val===correct){
-        feedback.textContent="إجابة صحيحة";
-        feedback.style.color="#2ecc71";
-        score+=10;scoreBox.textContent=score;
+    clearInterval(timerInterval);
+
+    const correct = questions[pos].a;
+
+    if(val === correct){
+        feedback.textContent = "إجابة صحيحة";
+        feedback.style.color = "#2ecc71";
+        score += 10;
+        scoreBox.textContent = score;
         sndCorrect.play();
     }else{
-        feedback.textContent="إجابة خاطئة";
-        feedback.style.color="#e74c3c";
+        feedback.textContent = "إجابة خاطئة";
+        feedback.style.color = "#e74c3c";
         sndWrong.play();
     }
-    setTimeout(()=>{pos++;sndNext.play();render();},900);
+
+    setTimeout(()=>{
+        pos++;
+        sndNext.play();
+        render();
+        startTimer();
+    },900);
 }
 
-function go(v){
-    pos=Math.min(Math.max(pos+v,0),questions.length-1);
-    sndNext.play();render();
+/* ===========================
+      نهاية اللعبة
+=========================== */
+function endGame(){
+    sndEnd.play();
+    clearInterval(timerInterval);
+
+    document.getElementById("gameCard").style.display = "none";
+    document.getElementById("endScreen").style.display = "flex";
+
+    document.getElementById("certName").textContent = username;
+    document.getElementById("certScore").textContent = score;
+    document.getElementById("certPercent").textContent = ((score/(questions.length*10))*100).toFixed(1);
+}
+
+/* ===========================
+      إعادة اللعب
+=========================== */
+function restart(){
+    pos = 0;
+    score = 0;
+    scoreBox.textContent = 0;
+
+    document.getElementById("endScreen").style.display = "none";
+    document.getElementById("startScreen").style.display = "flex";
 }
 </script>
 
