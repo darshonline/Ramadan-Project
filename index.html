@@ -1,406 +1,295 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>مسابقة رمضان - أكاديمية HZ</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>مسابقة رمضان الاحترافية - أكاديمية HZ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
 
-<style>
+    <style>
+        :root {
+            --primary-gold: #FFD700;
+            --deep-purple: #2c145a;
+            --accent-green: #2ecc71;
+            --accent-red: #e74c3c;
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --transition-speed: 0.3s;
+        }
 
-  /* شعار ثابت في أعلى يسار الصفحة */
-.site-logo{
-  position:fixed;
-  top:14px;
-  left:14px;
-  z-index:9999;
-  display:inline-block;
-  width:90px;            /* حجم الشعار الافتراضي */
-  height:90px;
-  border-radius:10px;
-  overflow:hidden;
-  box-shadow:0 6px 18px rgba(0,0,0,0.35);
-  background:rgba(255,255,255,0.02);
-  transition:transform .18s, box-shadow .18s, opacity .18s;
-}
-.site-logo img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  display:block;
-}
+        /* RESET & BASE */
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; }
+        body {
+            background: radial-gradient(circle at top, #2c145a 0%, #050010 85%, #000 100%);
+            overflow-x: hidden;
+            min-height: 100vh;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-/* تأثير عند المرور */
-.site-logo:hover{
-  transform:translateY(-3px) scale(1.03);
-  box-shadow:0 12px 30px rgba(0,0,0,0.45);
-  opacity:0.98;
-}
+        /* LOGO */
+        .site-logo {
+            position: fixed; top: 20px; left: 20px; z-index: 9999;
+            width: 80px; height: 80px; border-radius: 15px;
+            overflow: hidden; box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+            border: 2px solid var(--primary-gold);
+            transition: var(--transition-speed);
+        }
+        .site-logo:hover { transform: scale(1.1) rotate(-5deg); }
+        .site-logo img { width: 100%; height: 100%; object-fit: cover; }
 
-/* استجابة للشاشات الصغيرة */
-@media (max-width:480px){
-  .site-logo{ width:44px; height:44px; top:10px; left:10px; }
-}
+        /* ATMOSPHERE */
+        .stars {
+            position: fixed; inset: 0; pointer-events: none;
+            background-image: 
+                radial-gradient(2px 2px at 20% 30%, #fff, transparent),
+                radial-gradient(1.5px 1.5px at 70% 10%, #fff, transparent),
+                radial-gradient(2px 2px at 50% 80%, #fff, transparent);
+            animation: twinkle 4s infinite alternate;
+        }
+        @keyframes twinkle { from { opacity: 0.3; } to { opacity: 0.8; } }
 
+        .lantern { position: fixed; width: 100px; opacity: 0.8; animation: float 6s ease-in-out infinite; pointer-events: none; z-index: 1; }
+        .lan-1 { left: 5%; top: 10%; }
+        .lan-2 { right: 5%; top: 15%; animation-delay: 2s; }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
 
-/* RESET */
-*{box-sizing:border-box;margin:0;padding:0;font-family:"Cairo",sans-serif}
+        /* CARDS */
+        .card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 24px;
+            padding: 30px;
+            width: 90%;
+            max-width: 600px;
+            text-align: center;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            z-index: 10;
+            display: none; /* مخفي افتراضياً ويظهر عبر الـ JS */
+            animation: slideUp 0.5s ease-out;
+        }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 
-/* ===== خلفية ليلية رمضانية (تدرج + نجوم + فوانيس متحركة) ===== */
-html,body{height:100%}
-body{
-  background:radial-gradient(circle at top, #2c145a 0%, #050010 85%, #000 100%);
-  overflow:hidden;
-  min-height:100vh;
-  position:relative;
-  color:#fff;
-}
+        /* PROGRESS BAR */
+        .progress-container {
+            width: 100%; height: 8px; background: rgba(255,255,255,0.1);
+            border-radius: 10px; margin-bottom: 20px; overflow: hidden;
+        }
+        #progressBar {
+            width: 0%; height: 100%; background: var(--primary-gold);
+            transition: width 0.4s ease;
+        }
 
-/* نجوم لامعة خفيفة (CSS فقط) */
-.stars{
-  position:absolute;inset:0;pointer-events:none;
-  background-image:
-    radial-gradient(2px 2px at 20% 40%, #fff, transparent),
-    radial-gradient(1.6px 1.6px at 50% 65%, #fff, transparent),
-    radial-gradient(1.8px 1.8px at 70% 40%, #fff, transparent),
-    radial-gradient(1.4px 1.4px at 80% 90%, #fff, transparent),
-    radial-gradient(1.2px 1.2px at 90% 40%, #fff, transparent);
-  opacity:0.6;
-  animation:twinkle 6s infinite alternate ease-in-out;
-}
-@keyframes twinkle{from{opacity:0.25}to{opacity:0.9}}
+        /* INPUTS & BUTTONS */
+        input {
+            width: 100%; padding: 15px; border-radius: 12px; border: none;
+            background: rgba(255,255,255,0.9); margin: 20px 0;
+            font-size: 1.1rem; text-align: center; color: #333;
+        }
+        .btn {
+            padding: 15px 35px; border-radius: 50px; border: none;
+            cursor: pointer; font-weight: 700; font-size: 1.1rem;
+            transition: all 0.2s; display: inline-block;
+        }
+        .btn-gold { background: var(--primary-gold); color: var(--deep-purple); }
+        .btn-gold:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(255,215,0,0.3); }
 
-/* فوانيس متحركة (صور خفيفة من Pixabay) */
-.lantern{position:absolute;width:110px;opacity:0.95;animation:float 6s ease-in-out infinite;pointer-events:none}
-.lantern1{left:6%;top:6%;animation-duration:7s}
-.lantern2{right:10%;top:12%;animation-duration:5.6s}
-.lantern3{left:44%;top:8%;animation-duration:6.4s}
-@keyframes float{0%{transform:translateY(0)}50%{transform:translateY(24px)}100%{transform:translateY(0)}}
+        .choice-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 25px; }
+        .btn-choice { padding: 20px; border-radius: 15px; color: #fff; font-size: 1.2rem; }
+        .btn-true { background: var(--accent-green); }
+        .btn-false { background: var(--accent-red); }
 
-/* COMMON CARD STYLES */
-.card{
-  width:92%;max-width:720px;margin:0 auto;border-radius:18px;
-  background:rgba(255,255,255,0.08);backdrop-filter:blur(8px);
-  padding:22px;color:#fff;box-shadow:0 18px 40px rgba(0,0,0,0.5);
-  text-align:center;position:relative;
-}
+        /* FEEDBACK */
+        #feedback { font-size: 1.2rem; font-weight: 700; margin-top: 15px; height: 30px; }
+        .correct-anim { animation: pulse 0.5s ease; }
+        .wrong-anim { animation: shake 0.5s ease; }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px); } 75% { transform: translateX(10px); } }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
 
-/* USERNAME SCREEN */
-.username-screen{
-  position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
-  background:rgba(0,0,0,0.62);z-index:40;animation:fadeIn .6s ease;
-}
-.username-box{width:92%;max-width:380px;padding:26px;border-radius:14px;background:rgba(255,255,255,0.06);text-align:center}
-.username-box h2{font-size:1.5rem;margin-bottom:12px}
-.username-box input{width:100%;padding:12px;border-radius:10px;border:none;font-size:1.05rem}
-.username-box button{margin-top:14px;padding:12px 22px;border-radius:10px;border:none;background:#FFD700;color:#4a148c;font-weight:700;cursor:pointer;transition:transform .18s}
-.username-box button:hover{transform:scale(1.05)}
+        /* CERTIFICATE */
+        .certificate-content { background: #fff; color: #2c145a; padding: 30px; border-radius: 15px; position: relative; }
+        .rank-badge { font-size: 1.5rem; font-weight: 900; color: #d4af37; margin: 10px 0; }
 
-/* START SCREEN */
-.start-screen{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.58);z-index:30}
-.start-box{width:92%;max-width:420px;padding:28px;border-radius:14px;background:rgba(255,255,255,0.06)}
-.title{font-size:1.9rem;margin-bottom:16px}
-.start-btn{padding:14px 30px;border-radius:12px;border:none;background:#FFD700;color:#4a148c;font-weight:800;cursor:pointer;transition:transform .18s}
-.start-btn:hover{transform:scale(1.06)}
-.admin-link{display:block;margin-top:12px;color:#FFD700;text-decoration:none}
-
-/* GAME CARD */
-.game-card{display:none;position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:20}
-.game-inner{width:94%;max-width:720px;padding:26px;border-radius:18px;background:rgba(255,255,255,0.06);text-align:center}
-.timer-box{display:flex;justify-content:center;gap:10px;background:rgba(0,0,0,0.45);padding:10px;border-radius:12px;color:#FFD700;font-weight:700;margin-bottom:14px}
-.timer{font-size:1.6rem}
-.stats-header{display:flex;justify-content:space-between;background:rgba(255,255,255,0.06);padding:10px;border-radius:10px;color:#fff;font-weight:700;margin-bottom:18px}
-.question-box{min-height:140px;display:flex;align-items:center;justify-content:center}
-.question-text{font-size:1.5rem;line-height:1.6;animation:fadeIn .5s ease}
-.choice-btns{display:flex;justify-content:center;gap:18px;margin-top:16px;flex-wrap:wrap}
-.choice-btns button{width:150px;padding:12px;border-radius:999px;border:none;font-size:1.1rem;color:#fff;cursor:pointer;transition:transform .15s,box-shadow .15s}
-.choice-btns button:hover{transform:scale(1.05)}
-.btn-correct{background:#2ecc71;box-shadow:0 8px 18px rgba(46,204,113,0.12)}
-.btn-wrong{background:#e74c3c;box-shadow:0 8px 18px rgba(231,76,60,0.12)}
-#feedback{height:42px;margin-top:12px;font-weight:800}
-
-/* END SCREEN */
-.end-screen{display:none;position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.62);z-index:40}
-.certificate{background:#fff;color:#4a148c;padding:26px;border-radius:14px;width:92%;max-width:480px;text-align:center;box-shadow:0 12px 30px rgba(0,0,0,0.35)}
-.restart-btn{margin-top:16px;padding:12px 28px;border-radius:12px;border:none;background:#FFD700;color:#4a148c;font-weight:800;cursor:pointer}
-
-/* small screens */
-@media (max-width:480px){
-  .lantern{width:86px}
-  .choice-btns button{width:44%}
-  .question-text{font-size:1.15rem}
-}
-
-/* animations */
-@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-</style>
+        /* MOBILE OPTIMIZATION */
+        @media (max-width: 480px) {
+            .card { padding: 20px; }
+            .site-logo { width: 50px; height: 50px; top: 10px; left: 10px; }
+            .choice-btns { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
 <body>
-  
-<!-- شعار أعلى يسار الصفحة -->
-<a href="index.html" class="site-logo" aria-label="العودة إلى الصفحة الرئيسية">
-  <img src="HZ-Academy.jpg" alt="شعار الموقع">
-</a>
 
-<!-- BACKGROUND ELEMENTS -->
-<div class="stars" aria-hidden="true"></div>
+    <a href="index.html" class="site-logo">
+        <img src="HZ-Academy.jpg" alt="Logo">
+    </a>
 
-<img src="lantern.png" class="lantern lantern1" alt="">
-<img src="lantern.png" class="lantern lantern2" alt="">
-<img src="lantern.png" class="lantern lantern3" alt="">
+    <div class="stars"></div>
+    <img src="lantern.png" class="lantern lan-1">
+    <img src="lantern.png" class="lantern lan-2">
 
-<!-- USERNAME SCREEN -->
-<div class="username-screen" id="usernameScreen">
-  <div class="username-box card">
-    <h2>أدخل اسمك للبدء</h2>
-    <input id="usernameInput" type="text" placeholder="اكتب اسمك هنا" aria-label="اسم اللاعب">
-    <button onclick="saveUsername()">متابعة</button>
-  </div>
-</div>
-
-<!-- START SCREEN -->
-<div class="start-screen" id="startScreen" style="display:none">
-  <div class="start-box card">
-    <div class="title">مسابقة رمضان - أكاديمية HZ</div>
-    <div style="font-size:0.98rem;color:#fff;margin-bottom:12px">اختبر معلوماتك بسرعة ومرح</div>
-    <button class="start-btn" onclick="startGame()">ابدأ اللعب</button>
-    <a id="adminLink" class="admin-link" href="admin.html" style="display:none">صفحة إدارة الأسئلة</a>
-  </div>
-</div>
-
-<!-- GAME CARD -->
-<div class="game-card" id="gameCard" style="display:none">
-  <div class="game-inner card" role="main" aria-live="polite">
-    <div class="timer-box" aria-hidden="false">
-      <span>الوقت المتبقي:</span>
-      <span id="timer" class="timer">20</span>
+    <div class="card" id="screen-name" style="display: block;">
+        <h2 style="color: var(--primary-gold)">أهلاً بك في مسابقة رمضان</h2>
+        <p>لطفاً، أدخل اسمك لبدء التحدي</p>
+        <input type="text" id="usernameInput" placeholder="اسمك الكريم...">
+        <button class="btn btn-gold" onclick="goToStart()">متابعة</button>
     </div>
 
-    <div class="stats-header" role="status">
-      <div>السؤال: <span id="qnum">1</span></div>
-      <div>النقاط: <span id="score">0</span></div>
+    <div class="card" id="screen-start">
+        <h1 style="margin-bottom: 10px;">🌙 مسابقة أكاديمية HZ</h1>
+        <p>10 نقاط لكل إجابة صحيحة | 20 ثانية لكل سؤال</p>
+        <br>
+        <button class="btn btn-gold" onclick="startGame()">إبدأ السباق الرمضاني</button>
     </div>
 
-    <div class="question-box">
-      <div id="q-txt" class="question-text">جاري التحميل...</div>
+    <div class="card" id="screen-game">
+        <div class="progress-container"><div id="progressBar"></div></div>
+        
+        <div style="display: flex; justify-content: space-between; margin-bottom: 15px; font-weight: bold;">
+            <span>السؤال: <span id="qnum">1</span></span>
+            <span id="timer" style="color: var(--primary-gold)">20</span>
+            <span>النقاط: <span id="score">0</span></span>
+        </div>
+
+        <h2 id="q-txt" style="min-height: 80px; display: flex; align-items: center; justify-content: center;">...</h2>
+
+        <div class="choice-btns">
+            <button class="btn btn-choice btn-true" onclick="checkAnswer(true)">صحيح ✓</button>
+            <button class="btn btn-choice btn-false" onclick="checkAnswer(false)">خاطئ ✗</button>
+        </div>
+        <div id="feedback"></div>
     </div>
 
-    <div class="choice-btns" aria-hidden="false">
-      <button id="ok-btn" class="btn-correct">صحيح</button>
-      <button id="no-btn" class="btn-wrong">خاطئ</button>
+    <div class="card" id="screen-end">
+        <div class="certificate-content">
+            <h2 style="border-bottom: 2px solid #eee; padding-bottom: 10px;">شهادة تقدير</h2>
+            <p style="margin-top: 15px;">يتقدم فريق أكاديمية HZ بتهنئة:</p>
+            <h3 id="certName" style="font-size: 1.8rem; color: #c0392b;">-</h3>
+            <p>لإتمامه المسابقة الرمضانية بنتيجة:</p>
+            <div class="rank-badge" id="certRank">-</div>
+            <p>النقاط: <strong id="certScore">0</strong> | النسبة: <strong id="certPercent">0</strong>%</p>
+        </div>
+        <button class="btn btn-gold" style="margin-top: 20px;" onclick="location.reload()">إعادة المحاولة</button>
     </div>
 
-    <div id="feedback" aria-live="assertive"></div>
-  </div>
-</div>
+    <script>
+        // الأصوات
+        const sounds = {
+            correct: new Audio("https://cdn.pixabay.com/download/audio/2021/08/04/audio_bbd13143ef.mp3?filename=success-1-6297.mp3"),
+            wrong: new Audio("https://cdn.pixabay.com/download/audio/2022/03/24/audio_7315582f3d.mp3?filename=error-126627.mp3"),
+            start: new Audio("https://cdn.pixabay.com/download/audio/2022/01/18/audio_d0a13f69d2.mp3?filename=game-start-6104.mp3")
+        };
 
-<!-- END SCREEN -->
-<div class="end-screen" id="endScreen" style="display:none">
-  <div class="certificate card">
-    <h2>شهادة إتمام الاختبار</h2>
-    <p>الاسم: <strong id="certName"></strong></p>
-    <p>الدرجة: <strong id="certScore"></strong></p>
-    <p>النسبة: <strong id="certPercent"></strong>%</p>
-    <button class="restart-btn" onclick="restart()">إعادة اللعب</button>
-  </div>
-</div>
+        let allQuestions = [];
+        let currentPos = 0;
+        let score = 0;
+        let username = "";
+        let timeLeft = 20;
+        let timerId = null;
 
-<script>
-/* ===========================
-   أصوات رمضانية (محلية/آمنة)
-   - إذا لم تُحمّل الأصوات، الكود يتعامل مع الخطأ بصمت
-=========================== */
-function safeAudio(src){
-  try{
-    const a = new Audio(src);
-    a.preload = "auto";
-    a.addEventListener('error', ()=>{/* silent fallback */});
-    return a;
-  }catch(e){ return {play:()=>{}}; }
-}
+        // وظائف التنقل بين الشاشات
+        function showScreen(id) {
+            document.querySelectorAll('.card').forEach(s => s.style.display = 'none');
+            document.getElementById(id).style.display = 'block';
+        }
 
-/* استخدم روابط موثوقة وخفيفة من Pixabay */
-const sndStart   = safeAudio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_1c8d9e3b4d.mp3?filename=start-13693.mp3");
-const sndEnd     = safeAudio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_6d7f7dedf8.mp3?filename=finish-13693.mp3");
-const sndCorrect = safeAudio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_7e8e9e3b4d.mp3?filename=correct-2-46134.mp3");
-const sndWrong   = safeAudio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_6d7f7dedf8.mp3?filename=error-2-46134.mp3");
-const sndNext    = safeAudio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_0e3b82466e.mp3?filename=click-124467.mp3");
-const sndTimeUp  = safeAudio("https://cdn.pixabay.com/download/audio/2021/09/06/audio_4e0a1e3b4d.mp3?filename=drum-hit-1-100bpm-8801.mp3");
+        function goToStart() {
+            username = document.getElementById("usernameInput").value.trim();
+            if(!username) return alert("من فضلك أدخل اسمك");
+            showScreen('screen-start');
+        }
 
-/* ===========================
-   تحميل الأسئلة من questions.json
-=========================== */
-let questions = [];
-async function loadQuestions(){
-  try{
-    const res = await fetch("questions.json?nocache=" + Date.now());
-    if(!res.ok) throw new Error("not found");
-    questions = await res.json();
-  }catch(e){
-    alert("تعذر تحميل ملف الأسئلة. تأكد من وجود questions.json في نفس المجلد.");
-    questions = [];
-  }
-}
+        // تحميل الأسئلة مع خلطها
+        async function startGame() {
+            try {
+                const res = await fetch("questions.json?v=" + Date.now());
+                allQuestions = await res.json();
+                // خلط الأسئلة (Fisher-Yates Shuffle)
+                allQuestions.sort(() => Math.random() - 0.5);
+                
+                sounds.start.play().catch(()=>{});
+                showScreen('screen-game');
+                renderQuestion();
+            } catch (e) {
+                alert("خطأ: تأكد من وجود ملف questions.json");
+            }
+        }
 
-/* ===========================
-   متغيرات اللعبة
-=========================== */
-let pos = 0;
-let score = 0;
-let username = "";
-let timer = 20;
-let timerInterval = null;
+        function renderQuestion() {
+            if (currentPos >= allQuestions.length) return endGame();
 
-/* عناصر DOM */
-const usernameScreen = document.getElementById("usernameScreen");
-const startScreen = document.getElementById("startScreen");
-const gameCard = document.getElementById("gameCard");
-const endScreen = document.getElementById("endScreen");
-const qTxt = document.getElementById("q-txt");
-const qnum = document.getElementById("qnum");
-const scoreBox = document.getElementById("score");
-const feedback = document.getElementById("feedback");
-const timerEl = document.getElementById("timer");
-const adminLink = document.getElementById("adminLink");
+            const q = allQuestions[currentPos];
+            document.getElementById("q-txt").innerText = q.q;
+            document.getElementById("qnum").innerText = currentPos + 1;
+            document.getElementById("feedback").innerText = "";
+            
+            // تحديث شريط التقدم
+            const prog = ((currentPos) / allQuestions.length) * 100;
+            document.getElementById("progressBar").style.width = prog + "%";
 
-/* إظهار رابط الإدارة فقط عند ?admin=1 */
-const params = new URLSearchParams(window.location.search);
-if(params.get("admin")==="1") adminLink.style.display = "block";
+            resetTimer();
+        }
 
-/* ===========================
-   حفظ الاسم والانتقال
-=========================== */
-function saveUsername(){
-  const input = document.getElementById("usernameInput").value.trim();
-  if(!input){ alert("الرجاء إدخال الاسم"); return; }
-  username = input;
-  usernameScreen.style.display = "none";
-  startScreen.style.display = "flex";
-}
+        function resetTimer() {
+            clearInterval(timerId);
+            timeLeft = 20;
+            document.getElementById("timer").innerText = timeLeft;
+            timerId = setInterval(() => {
+                timeLeft--;
+                document.getElementById("timer").innerText = timeLeft;
+                if (timeLeft <= 0) {
+                    clearInterval(timerId);
+                    checkAnswer(null); // الوقت انتهى
+                }
+            }, 1000);
+        }
 
-/* ===========================
-   بدء اللعبة
-=========================== */
-async function startGame(){
-  sndStart.play().catch(()=>{});
-  await loadQuestions();
-  pos = 0; score = 0; scoreBox.textContent = score;
-  startScreen.style.display = "none";
-  gameCard.style.display = "block";
-  render();
-  startTimer();
-}
+        function checkAnswer(userChoice) {
+            clearInterval(timerId);
+            const correctAnswer = allQuestions[currentPos].a;
+            const feedbackEl = document.getElementById("feedback");
+            const gameCard = document.getElementById("screen-game");
 
-/* ===========================
-   المؤقّت (20 ثانية) + انتهاء الوقت = خطأ + انتقال
-=========================== */
-function startTimer(){
-  timer = 20;
-  timerEl.textContent = timer;
-  clearInterval(timerInterval);
-  timerInterval = setInterval(()=>{
-    timer--;
-    timerEl.textContent = timer;
-    if(timer <= 0){
-      clearInterval(timerInterval);
-      sndTimeUp.play().catch(()=>{});
-      handleTimeUp();
-    }
-  },1000);
-}
+            if (userChoice === correctAnswer) {
+                score += 10;
+                feedbackEl.innerText = "إجابة صحيحة! أحسنت 🌟";
+                feedbackEl.style.color = "var(--accent-green)";
+                gameCard.classList.add("correct-anim");
+                sounds.correct.play().catch(()=>{});
+            } else {
+                feedbackEl.innerText = userChoice === null ? "انتهى الوقت! ⏰" : "إجابة خاطئة.. حاول في التالي 🌙";
+                feedbackEl.style.color = "var(--accent-red)";
+                gameCard.classList.add("wrong-anim");
+                sounds.wrong.play().catch(()=>{});
+            }
 
-function handleTimeUp(){
-  // يعتبر السؤال خطأ
-  feedback.textContent = "انتهى الوقت! (خطأ)";
-  feedback.style.color = "#e74c3c";
-  // لا نزيد النقاط، ننتقل بعد تأخير قصير
-  setTimeout(()=>{
-    pos++;
-    sndNext.play().catch(()=>{});
-    render();
-    startTimer();
-  },900);
-}
+            document.getElementById("score").innerText = score;
 
-/* ===========================
-   عرض السؤال
-=========================== */
-function render(){
-  if(pos >= questions.length) return endGame();
-  const item = questions[pos];
-  qTxt.textContent = item.q || "سؤال فارغ";
-  qnum.textContent = pos + 1;
-  feedback.textContent = "";
-  // تأثير ظهور
-  qTxt.style.animation = "fadeIn .45s ease";
-}
+            setTimeout(() => {
+                gameCard.classList.remove("correct-anim", "wrong-anim");
+                currentPos++;
+                renderQuestion();
+            }, 1500);
+        }
 
-/* ===========================
-   التحقق من الإجابة
-=========================== */
-document.getElementById("ok-btn").onclick = ()=>check(true);
-document.getElementById("no-btn").onclick = ()=>check(false);
+        function endGame() {
+            showScreen('screen-end');
+            const percent = (score / (allQuestions.length * 10)) * 100;
+            
+            document.getElementById("certName").innerText = username;
+            document.getElementById("certScore").innerText = score;
+            document.getElementById("certPercent").innerText = percent.toFixed(0);
 
-function check(val){
-  clearInterval(timerInterval);
-  const correct = questions[pos] && questions[pos].a;
-  if(val === correct){
-    feedback.textContent = "إجابة صحيحة";
-    feedback.style.color = "#2ecc71";
-    score += 10;
-    scoreBox.textContent = score;
-    sndCorrect.play().catch(()=>{});
-  }else{
-    feedback.textContent = "إجابة خاطئة";
-    feedback.style.color = "#e74c3c";
-    sndWrong.play().catch(()=>{});
-  }
-  setTimeout(()=>{
-    pos++;
-    sndNext.play().catch(()=>{});
-    render();
-    startTimer();
-  },900);
-}
-
-/* ===========================
-   نهاية اللعبة
-=========================== */
-function endGame(){
-  clearInterval(timerInterval);
-  sndEnd.play().catch(()=>{});
-  gameCard.style.display = "none";
-  endScreen.style.display = "flex";
-  document.getElementById("certName").textContent = username;
-  document.getElementById("certScore").textContent = score;
-  const percent = questions.length ? ((score/(questions.length*10))*100).toFixed(1) : 0;
-  document.getElementById("certPercent").textContent = percent;
-}
-
-/* ===========================
-   إعادة اللعب
-=========================== */
-function restart(){
-  pos = 0; score = 0; scoreBox.textContent = 0;
-  endScreen.style.display = "none";
-  startScreen.style.display = "flex";
-}
-
-/* ===========================
-   تحسين تجربة الصوت على المتصفحات التي تمنع التشغيل التلقائي
-   - نلتقط أي خطأ عند محاولة التشغيل ونتجاهله بهدوء
-=========================== */
-window.addEventListener('click', ()=>{ // محاولة تشغيل خفيفة عند أول تفاعل
-  [sndStart,sndEnd,sndCorrect,sndWrong,sndNext,sndTimeUp].forEach(s=>{
-    try{ s.play().then(()=>s.pause(),()=>{}); s.currentTime = 0; }catch(e){}
-  });
-},{once:true});
-</script>
+            let rank = "";
+            if(percent >= 90) rank = "🏆 ممتاز جداً";
+            else if(percent >= 75) rank = "🌟 جيد جداً";
+            else if(percent >= 50) rank = "👍 جيد";
+            else rank = "🌙 محاولة مباركة";
+            
+            document.getElementById("certRank").innerText = rank;
+        }
+    </script>
 </body>
 </html>
-
-
-
-
-
-
-
