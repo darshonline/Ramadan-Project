@@ -14,8 +14,8 @@
   left:14px;
   z-index:9999;
   display:inline-block;
-  width:56px;            /* حجم الشعار الافتراضي */
-  height:56px;
+  width:70px;            /* حجم الشعار الافتراضي */
+  height:70px;
   border-radius:10px;
   overflow:hidden;
   box-shadow:0 6px 18px rgba(0,0,0,0.35);
@@ -48,7 +48,7 @@
 /* ===== خلفية ليلية رمضانية (تدرج + نجوم + فوانيس متحركة) ===== */
 html,body{height:100%}
 body{
-  background:radial-gradient(circle at top, #2c145a 0%, #050010 55%, #000 100%);
+  background:radial-gradient(circle at top, #2c145a 0%, #050010 85%, #000 100%);
   overflow:hidden;
   min-height:100vh;
   position:relative;
@@ -59,11 +59,11 @@ body{
 .stars{
   position:absolute;inset:0;pointer-events:none;
   background-image:
-    radial-gradient(2px 2px at 10% 20%, #fff, transparent),
-    radial-gradient(1.6px 1.6px at 25% 40%, #fff, transparent),
-    radial-gradient(1.8px 1.8px at 40% 15%, #fff, transparent),
-    radial-gradient(1.4px 1.4px at 60% 70%, #fff, transparent),
-    radial-gradient(1.2px 1.2px at 80% 30%, #fff, transparent);
+    radial-gradient(2px 2px at 20% 40%, #fff, transparent),
+    radial-gradient(1.6px 1.6px at 50% 65%, #fff, transparent),
+    radial-gradient(1.8px 1.8px at 70% 40%, #fff, transparent),
+    radial-gradient(1.4px 1.4px at 80% 90%, #fff, transparent),
+    radial-gradient(1.2px 1.2px at 90% 40%, #fff, transparent);
   opacity:0.6;
   animation:twinkle 6s infinite alternate ease-in-out;
 }
@@ -397,6 +397,7 @@ window.addEventListener('click', ()=>{ // محاولة تشغيل خفيفة ع�
 </script>
 </body>
 </html>
+
 
 
 
