@@ -85,11 +85,117 @@ if(pass !== "HZ2025"){
 </div>
 
 <script>
-/* تخزين الأسئلة */
+/* نفس مفتاح التخزين المستخدم في index.html */
 const STORAGE_KEY="hz_ramadan_questions_v1";
+
+/* الأسئلة الافتراضية */
 const defaultQuestions=[
     {q:"يشرع استقبال شهر رمضان بالتوبة النصوح الصادقة من جميع الذنوب.",a:true},
     {q:"من السنة الاستعداد لرمضان بالمبالغة في شراء الأطعمة والمشروبات.",a:false},
     {q:"حقيقة الصيام هي حفظ الجوارح عن الآثام وليس مجرد ترك الطعام والشراب.",a:true},
     {q:"من المخالفات الشائعة ضياع الأوقات في متابعة المسلسلات والقنوات.",a:true},
-    {q:"الأفضل للمصلي في صلاة التراويح أن ينصرف قبل أن يكمل الإمام صلاته.",a:false
+    {q:"الأفضل للمصلي في صلاة التراويح أن ينصرف قبل أن يكمل الإمام صلاته.",a:false}
+];
+
+/* تحميل الأسئلة */
+function loadQuestions(){
+    try{
+        const saved=localStorage.getItem(STORAGE_KEY);
+        if(saved) return JSON.parse(saved);
+    }catch(e){console.warn(e);}
+    return [...defaultQuestions];
+}
+
+/* حفظ الأسئلة */
+function saveQuestions(questions){
+    try{
+        localStorage.setItem(STORAGE_KEY,JSON.stringify(questions));
+    }catch(e){console.error(e);}
+}
+
+/* إعادة الافتراضي */
+function resetQuestions(){
+    saveQuestions(defaultQuestions);
+    return loadQuestions();
+}
+
+/* الحالة الحالية */
+let questions = loadQuestions();
+const tbody = document.querySelector("#qTable tbody");
+
+/* رسم الجدول */
+function renderTable(){
+    tbody.innerHTML="";
+    questions.forEach((item,index)=>{
+        const tr=document.createElement("tr");
+
+        const tdIndex=document.createElement("td");
+        tdIndex.textContent=index+1;
+
+        const tdQ=document.createElement("td");
+        const inputQ=document.createElement("input");
+        inputQ.type="text";
+        inputQ.value=item.q;
+        inputQ.oninput=(e)=>{questions[index].q=e.target.value;};
+        tdQ.appendChild(inputQ);
+
+        const tdA=document.createElement("td");
+        const selectA=document.createElement("select");
+        const optTrue=document.createElement("option");
+        optTrue.value="true";optTrue.textContent="صحيح";
+        const optFalse=document.createElement("option");
+        optFalse.value="false";optFalse.textContent="خاطئ";
+        selectA.appendChild(optTrue);
+        selectA.appendChild(optFalse);
+        selectA.value=item.a?"true":"false";
+        selectA.onchange=(e)=>{questions[index].a=(e.target.value==="true");};
+        tdA.appendChild(selectA);
+
+        const tdActions=document.createElement("td");
+        const btnDel=document.createElement("button");
+        btnDel.textContent="حذف";
+        btnDel.className="btn btn-danger";
+        btnDel.onclick=()=>{
+            if(confirm("هل أنت متأكد من حذف هذا السؤال؟")){
+                questions.splice(index,1);
+                renderTable();
+            }
+        };
+        tdActions.appendChild(btnDel);
+
+        tr.appendChild(tdIndex);
+        tr.appendChild(tdQ);
+        tr.appendChild(tdA);
+        tr.appendChild(tdActions);
+
+        tbody.appendChild(tr);
+    });
+}
+
+/* إضافة صف جديد */
+function addRow(){
+    questions.push({q:"",a:true});
+    renderTable();
+}
+
+/* حفظ كل التغييرات */
+function saveAll(){
+    questions = questions.filter(q=>q.q.trim()!=="");
+    saveQuestions(questions);
+    alert("تم حفظ جميع التغييرات بنجاح.");
+    renderTable();
+}
+
+/* إعادة الافتراضي */
+function resetAll(){
+    if(!confirm("سيتم استرجاع الأسئلة الافتراضية وحذف التعديلات، هل أنت متأكد؟")) return;
+    questions = resetQuestions();
+    renderTable();
+}
+
+/* أول تحميل */
+renderTable();
+</script>
+
+</body>
+</html>
