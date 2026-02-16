@@ -1,456 +1,387 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>إدارة أسئلة المسابقة - أكاديمية HZ</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>لوحة الإدارة - مسابقة رمضان - محمد مصطفى</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
 
-<style>
-/* RESET */
-*{box-sizing:border-box;margin:0;padding:0;font-family:"Cairo",sans-serif}
-html,body{height:100%}
-body{
-  background:linear-gradient(135deg,#12002f,#4a148c);
-  color:#fff;min-height:100vh;padding:24px;
-}
+    <style>
+        :root {
+            --primary-gold: #FFD700;
+            --bg-deep: #0f0524;
+            --glass: rgba(255, 255, 255, 0.08);
+            --success: #2ecc71;
+            --error: #e74c3c;
+            --text-white: #ffffff;
+        }
 
-/* CONTAINER */
-.container{
-  max-width:1000px;margin:0 auto;background:rgba(255,255,255,0.06);
-  border-radius:14px;padding:18px;backdrop-filter:blur(8px);
-  box-shadow:0 12px 40px rgba(0,0,0,0.45);
-}
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; }
 
-/* HEADER */
-.header{
-  display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;flex-wrap:wrap;
-}
-h1{font-size:1.4rem}
-.controls{display:flex;gap:8px;flex-wrap:wrap}
-.btn{padding:10px 14px;border-radius:10px;border:none;cursor:pointer;font-weight:700;transition:transform .15s}
-.btn:hover{transform:translateY(-2px)}
-.btn-primary{background:#FFD700;color:#4a148c}
-.btn-secondary{background:#2d3e50;color:#fff}
-.btn-danger{background:#e74c3c;color:#fff}
-.small{padding:8px 10px;font-size:.95rem}
+        body {
+            background: radial-gradient(circle at center, #2c145a 0%, #050010 100%);
+            color: var(--text-white);
+            min-height: 100vh;
+            padding: 20px;
+            padding-bottom: 80px; /* مساحة للشريط السفلي */
+        }
 
-/* SEARCH & STATS */
-.top-row{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap}
-.search-box{display:flex;gap:8px;align-items:center}
-.search-box input{padding:10px;border-radius:10px;border:none;min-width:220px}
-.stats{font-size:.95rem;color:#ffd;}
-.indicator{display:inline-block;margin-left:8px;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.06);font-weight:700}
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+        }
 
-/* TABLE */
-.table{width:100%;border-collapse:collapse;margin-top:8px}
-.table th,.table td{padding:10px;text-align:right;border-bottom:1px solid rgba(255,255,255,0.06);vertical-align:middle}
-.table th{background:rgba(255,255,255,0.03);font-weight:800}
-.input-q{width:100%;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.02);color:#fff}
-.select-a{padding:8px;border-radius:8px;border:none;background:rgba(255,255,255,0.02);color:#fff}
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,215,0,0.3);
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
 
-/* ACTIONS */
-.action-group{display:flex;gap:6px;justify-content:flex-end}
-.icon-btn{padding:8px 10px;border-radius:8px;border:none;cursor:pointer;background:rgba(255,255,255,0.03);color:#fff}
-.icon-btn:hover{background:rgba(255,255,255,0.06)}
+        h1 { font-size: 1.6rem; color: var(--primary-gold); }
 
-/* FOOTER */
-.footer{margin-top:14px;text-align:center;color:#ffd;font-size:.95rem}
+        /* التحكم بالأزرار */
+        .controls-top {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
 
-/* MODALS */
-.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.6);display:none;align-items:center;justify-content:center;z-index:60}
-.modal{background:#fff;color:#222;padding:18px;border-radius:12px;max-width:520px;width:92%}
-.modal h3{margin-bottom:8px}
-.modal .row{margin-bottom:10px}
-.input-file{display:block}
+        .btn {
+            padding: 10px 18px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            font-weight: 700;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
 
-/* TOAST */
-.toast{position:fixed;left:20px;bottom:20px;background:#333;color:#fff;padding:10px 14px;border-radius:8px;box-shadow:0 8px 20px rgba(0,0,0,0.4);display:none;z-index:80}
+        .btn-add { background: var(--success); color: white; }
+        .btn-export { background: var(--primary-gold); color: #1a0b2e; }
+        .btn-import { background: #3498db; color: white; }
+        .btn-danger { background: var(--error); color: white; }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
 
-/* RESPONSIVE */
-@media (max-width:640px){
-  .header{flex-direction:column;align-items:flex-start}
-  .top-row{flex-direction:column;align-items:flex-start}
-  .action-group{justify-content:flex-start}
-}
-</style>
+        /* شريط البحث والإحصائيات */
+        .search-stats-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .search-box input {
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.05);
+            color: white;
+            width: 300px;
+        }
+
+        .stat-badge {
+            background: rgba(255,215,0,0.15);
+            padding: 8px 15px;
+            border-radius: 50px;
+            color: var(--primary-gold);
+            font-weight: bold;
+            border: 1px solid var(--primary-gold);
+        }
+
+        /* الجدول */
+        .table-container { overflow-x: auto; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: right;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        th { background: rgba(0,0,0,0.2); color: var(--primary-gold); }
+
+        .input-q {
+            width: 100%;
+            padding: 8px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: white;
+            border-radius: 5px;
+        }
+
+        .select-a {
+            padding: 8px;
+            background: #2c145a;
+            color: white;
+            border-radius: 5px;
+            border: 1px solid var(--primary-gold);
+        }
+
+        .action-btns { display: flex; gap: 5px; }
+        .btn-icon {
+            padding: 6px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            color: white;
+            background: rgba(255,255,255,0.1);
+        }
+        .btn-icon:hover { background: rgba(255,255,255,0.2); }
+
+        /* شريط الحقوق المطور */
+        .footer-copyright {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            color: var(--primary-gold);
+            text-align: center;
+            padding: 15px 0;
+            font-size: 1rem;
+            font-weight: bold;
+            border-top: 2px solid var(--primary-gold);
+            z-index: 2000;
+            letter-spacing: 1px;
+        }
+
+        /* الإشعارات */
+        #toast {
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--success);
+            padding: 10px 25px;
+            border-radius: 50px;
+            display: none;
+            z-index: 3000;
+        }
+
+        @media (max-width: 768px) {
+            .header { flex-direction: column; text-align: center; }
+            .search-box input { width: 100%; }
+        }
+    </style>
 </head>
 <body>
 
-<div class="container" role="main">
-  <div class="header">
-    <h1>إدارة أسئلة مسابقة رمضان</h1>
-    <div class="controls" aria-hidden="false">
-      <button class="btn btn-primary" id="addBtn">إضافة سؤال جديد</button>
-      <button class="btn btn-secondary" id="importBtn">استيراد JSON</button>
-      <button class="btn btn-secondary" id="exportBtn">تصدير JSON</button>
-      <button class="btn small" id="copyBtn">نسخ JSON</button>
-      <button class="btn btn-danger" id="resetBtn">استعادة افتراضية</button>
+<div class="container">
+    <div class="header">
+        <h1>إدارة أسئلة المسابقة الرمضانية 🌙</h1>
+        <div class="controls-top">
+            <button class="btn btn-add" onclick="addRow()">➕ إضافة سؤال</button>
+            <button class="btn btn-export" onclick="downloadJSON()">💾 تصدير JSON</button>
+            <button class="btn btn-import" onclick="document.getElementById('fileInput').click()">📂 استيراد</button>
+            <input type="file" id="fileInput" hidden accept=".json" onchange="importJSON(this)">
+            <button class="btn btn-danger" onclick="resetAll()">🔄 افتراضي</button>
+        </div>
     </div>
-  </div>
 
-  <div class="top-row">
-    <div class="search-box">
-      <input id="searchInput" placeholder="ابحث عن نص في الأسئلة..." aria-label="بحث">
-      <button class="btn small" id="clearSearch">مسح</button>
+    <div class="search-stats-row">
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="ابحث عن سؤال معين..." oninput="renderTable()">
+        </div>
+        <div class="stat-badge">
+            عدد الأسئلة الحالي: <span id="qCount">0</span>
+        </div>
     </div>
-    <div class="stats">
-      <span class="indicator">عدد الأسئلة: <strong id="count">0</strong></span>
-      <span class="indicator" id="unsaved" style="display:none;background:#e67e22;color:#fff">تغييرات غير محفوظة</span>
-      <label style="margin-left:10px;font-weight:700">
-        حفظ تلقائي
-        <input type="checkbox" id="autosave" style="margin-right:8px">
-      </label>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 50px;">#</th>
+                    <th>نص السؤال</th>
+                    <th style="width: 120px;">الإجابة</th>
+                    <th style="width: 180px;">التحكم</th>
+                </tr>
+            </thead>
+            <tbody id="questionsTableBody">
+                </tbody>
+        </table>
     </div>
-  </div>
-
-  <table class="table" id="qTable" aria-label="جدول الأسئلة">
-    <thead>
-      <tr>
-        <th style="width:48px">#</th>
-        <th>السؤال</th>
-        <th style="width:140px">الإجابة</th>
-        <th style="width:220px">إجراءات</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
-
-  <div class="footer">✦ إعداد وتصميم محمد مصطفى ✦</div>
 </div>
 
-<!-- Import Modal -->
-<div class="modal-backdrop" id="modalBackdrop">
-  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-    <h3 id="modalTitle">استيراد ملف JSON</h3>
-    <div class="row">
-      <input type="file" id="fileInput" accept=".json" class="input-file">
-    </div>
-    <div style="text-align:left">
-      <button class="btn btn-secondary" id="doImport">استيراد</button>
-      <button class="btn" id="closeModal">إلغاء</button>
-    </div>
-  </div>
-</div>
+<div id="toast">تم حفظ التغييرات بنجاح!</div>
 
-<div class="toast" id="toast"></div>
+<div class="footer-copyright">
+    جميع الحقوق محفوظة © <span id="currentYear"></span> | تم التطوير والتصميم بواسطة محمد مصطفى
+</div>
 
 <script>
-/* ===== بيانات افتراضية ===== */
-const defaultQuestions = [
-  {q:"يشرع استقبال شهر رمضان بالتوبة النصوح الصادقة من جميع الذنوب.",a:true},
-  {q:"من السنة الاستعداد لرمضان بالمبالغة في شراء الأطعمة والمشروبات.",a:false},
-  {q:"حقيقة الصيام هي حفظ الجوارح عن الآثام وليس مجرد ترك الطعام والشراب.",a:true},
-  {q:"من المخالفات الشائعة ضياع الأوقات في متابعة المسلسلات والقنوات.",a:true},
-  {q:"الأفضل للمصلي في صلاة التراويح أن ينصرف قبل أن يكمل الإمام صلاته.",a:false}
-];
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
 
-/* ===== عناصر DOM ===== */
-const tbody = document.querySelector("#qTable tbody");
-const countEl = document.getElementById("count");
-const unsavedEl = document.getElementById("unsaved");
-const autosaveEl = document.getElementById("autosave");
-const toast = document.getElementById("toast");
-const modalBackdrop = document.getElementById("modalBackdrop");
-const fileInput = document.getElementById("fileInput");
-
-/* ===== حالة التطبيق ===== */
-let questions = [];
-let isDirty = false;
-
-/* ===== حماية الدخول محسنة =====
-   نستخدم نافذة مودال بسيطة بدلاً من prompt لتجربة أفضل.
-   إذا لم تكن تريد تغييرها، يمكنك الاحتفاظ بكلمة المرور كما هي.
-*/
-(function protect(){
-  const pw = sessionStorage.getItem("admin_pass_ok");
-  if(pw === "1") return;
-  const pass = prompt("أدخل كلمة المرور للدخول إلى صفحة الإدارة:");
-  if(pass !== "HZ2025"){
-    alert("كلمة المرور غير صحيحة");
-    window.location.href = "index.html";
-  } else {
-    sessionStorage.setItem("admin_pass_ok","1");
-  }
-})();
-
-/* ===== مساعدة العرض ===== */
-function showToast(msg,timeout=2200){
-  toast.textContent = msg;
-  toast.style.display = "block";
-  setTimeout(()=>{ toast.style.display = "none"; }, timeout);
-}
-
-/* ===== تحميل الأسئلة من questions.json ===== */
-async function loadQuestions(){
-  try {
-    const res = await fetch("questions.json?nocache=" + Date.now());
-    if(!res.ok) throw new Error("not found");
-    questions = await res.json();
-    if(!Array.isArray(questions)) throw new Error("invalid format");
-  } catch(e){
-    // إذا فشل التحميل، نعرض الافتراضي
-    questions = [...defaultQuestions];
-    showToast("تعذر تحميل questions.json. تم تحميل الأسئلة الافتراضية");
-  }
-  renderTable();
-  markClean();
-}
-
-/* ===== رسم الجدول ===== */
-function renderTable(filter=""){
-  tbody.innerHTML = "";
-  const filtered = questions.map((it,idx)=>({it,idx}))
-    .filter(x => !filter || (x.it.q && x.it.q.toLowerCase().includes(filter.toLowerCase())));
-  filtered.forEach(({it,idx},i)=>{
-    const tr = document.createElement("tr");
-
-    const tdIndex = document.createElement("td");
-    tdIndex.textContent = idx+1;
-
-    const tdQ = document.createElement("td");
-    const inputQ = document.createElement("input");
-    inputQ.type = "text";
-    inputQ.className = "input-q";
-    inputQ.value = it.q || "";
-    inputQ.addEventListener("input", e => {
-      questions[idx].q = e.target.value;
-      setDirty();
-    });
-    tdQ.appendChild(inputQ);
-
-    const tdA = document.createElement("td");
-    const selectA = document.createElement("select");
-    selectA.className = "select-a";
-    selectA.innerHTML = `<option value="true">صحيح</option><option value="false">خاطئ</option>`;
-    selectA.value = it.a ? "true" : "false";
-    selectA.addEventListener("change", e => {
-      questions[idx].a = (e.target.value === "true");
-      setDirty();
-    });
-    tdA.appendChild(selectA);
-
-    const tdActions = document.createElement("td");
-    tdActions.className = "action-group";
-
-    const upBtn = document.createElement("button");
-    upBtn.className = "icon-btn";
-    upBtn.title = "نقل للأعلى";
-    upBtn.innerHTML = "⬆";
-    upBtn.onclick = ()=>{ moveUp(idx); };
-
-    const downBtn = document.createElement("button");
-    downBtn.className = "icon-btn";
-    downBtn.title = "نقل للأسفل";
-    downBtn.innerHTML = "⬇";
-    downBtn.onclick = ()=>{ moveDown(idx); };
-
-    const dupBtn = document.createElement("button");
-    dupBtn.className = "icon-btn";
-    dupBtn.title = "تكرار السؤال";
-    dupBtn.innerHTML = "نسخ";
-    dupBtn.onclick = ()=>{ duplicate(idx); };
-
-    const delBtn = document.createElement("button");
-    delBtn.className = "icon-btn";
-    delBtn.title = "حذف السؤال";
-    delBtn.style.background = "rgba(231,76,60,0.12)";
-    delBtn.innerHTML = "حذف";
-    delBtn.onclick = ()=>{ removeQuestion(idx); };
-
-    tdActions.appendChild(upBtn);
-    tdActions.appendChild(downBtn);
-    tdActions.appendChild(dupBtn);
-    tdActions.appendChild(delBtn);
-
-    tr.appendChild(tdIndex);
-    tr.appendChild(tdQ);
-    tr.appendChild(tdA);
-    tr.appendChild(tdActions);
-
-    tbody.appendChild(tr);
-  });
-
-  countEl.textContent = questions.length;
-}
-
-/* ===== عمليات على الأسئلة ===== */
-function addRow(){
-  questions.push({q:"",a:true});
-  renderTable(document.getElementById("searchInput").value.trim());
-  setDirty();
-  // تمرير التركيز للحقل الجديد
-  setTimeout(()=> {
-    const inputs = document.querySelectorAll(".input-q");
-    if(inputs.length) inputs[inputs.length-1].focus();
-  },50);
-}
-
-function removeQuestion(index){
-  if(!confirm("هل أنت متأكد من حذف هذا السؤال؟")) return;
-  questions.splice(index,1);
-  renderTable(document.getElementById("searchInput").value.trim());
-  setDirty();
-}
-
-function duplicate(index){
-  const copy = JSON.parse(JSON.stringify(questions[index]));
-  questions.splice(index+1,0,copy);
-  renderTable(document.getElementById("searchInput").value.trim());
-  setDirty();
-}
-
-function moveUp(index){
-  if(index <= 0) return;
-  [questions[index-1],questions[index]] = [questions[index],questions[index-1]];
-  renderTable(document.getElementById("searchInput").value.trim());
-  setDirty();
-}
-
-function moveDown(index){
-  if(index >= questions.length-1) return;
-  [questions[index+1],questions[index]] = [questions[index],questions[index+1]];
-  renderTable(document.getElementById("searchInput").value.trim());
-  setDirty();
-}
-
-/* ===== حفظ وتصدير ===== */
-function downloadJSON(){
-  // تحقق من صحة الأسئلة قبل التصدير
-  const cleaned = questions.map(q => ({q: (q.q||"").trim(), a: !!q.a}));
-  // إزالة الأسئلة الفارغة نهائيًا
-  const filtered = cleaned.filter(x => x.q.length > 0);
-  const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(filtered, null, 2));
-  const dl = document.createElement("a");
-  dl.setAttribute("href", dataStr);
-  dl.setAttribute("download", "questions.json");
-  dl.click();
-  showToast("تم إنشاء ملف JSON. قم برفعه إلى GitHub لاستبدال الملف القديم.");
-  markClean();
-}
-
-/* نسخ JSON للحافظة */
-async function copyJSON(){
-  try{
-    const cleaned = questions.map(q => ({q: (q.q||"").trim(), a: !!q.a})).filter(x=>x.q.length>0);
-    await navigator.clipboard.writeText(JSON.stringify(cleaned, null, 2));
-    showToast("تم نسخ JSON إلى الحافظة");
-  }catch(e){
-    showToast("فشل النسخ. استخدم زر التصدير بدلاً من ذلك.");
-  }
-}
-
-/* ===== استيراد JSON من ملف محلي ===== */
-function openImportModal(){
-  fileInput.value = "";
-  modalBackdrop.style.display = "flex";
-}
-function closeImportModal(){ modalBackdrop.style.display = "none"; }
-
-document.getElementById("doImport").addEventListener("click", ()=>{
-  const f = fileInput.files[0];
-  if(!f){ alert("اختر ملف JSON أولاً"); return; }
-  const reader = new FileReader();
-  reader.onload = e => {
-    try{
-      const parsed = JSON.parse(e.target.result);
-      if(!Array.isArray(parsed)) throw new Error("تنسيق غير صحيح");
-      // تحقق من العناصر
-      const ok = parsed.every(it => typeof it.q === "string" && typeof it.a !== "undefined");
-      if(!ok) throw new Error("تنسيق عناصر غير صحيح");
-      questions = parsed.map(it => ({q: (it.q||"").toString(), a: !!it.a}));
-      renderTable();
-      setDirty();
-      closeImportModal();
-      showToast("تم استيراد الأسئلة بنجاح");
-    }catch(err){
-      alert("فشل استيراد الملف: " + err.message);
-    }
-  };
-  reader.readAsText(f,"utf-8");
-});
-
-/* ===== إعادة الأسئلة الافتراضية ===== */
-function resetAll(){
-  if(!confirm("سيتم استرجاع الأسئلة الافتراضية وحذف التعديلات، هل أنت متأكد؟")) return;
-  questions = [...defaultQuestions];
-  renderTable();
-  setDirty();
-  showToast("تم استرجاع الأسئلة الافتراضية");
-}
-
-/* ===== بحث ===== */
-document.getElementById("searchInput").addEventListener("input", e=>{
-  renderTable(e.target.value.trim());
-});
-document.getElementById("clearSearch").addEventListener("click", ()=>{
-  document.getElementById("searchInput").value = "";
-  renderTable("");
-});
-
-/* ===== حالة الحفظ التلقائي ===== */
-function setDirty(){
-  isDirty = true;
-  unsavedEl.style.display = "inline-block";
-  if(autosaveEl.checked){
-    // حفظ تلقائي عبر تنزيل تلقائي (أو تخزين محلي)
-    localStorage.setItem("admin_autosave_data", JSON.stringify(questions));
-    showToast("تم الحفظ تلقائياً في التخزين المحلي");
-    markClean();
-  }
-}
-function markClean(){
-  isDirty = false;
-  unsavedEl.style.display = "none";
-}
-
-/* ===== نسخ احتياطي محلي واستعادة ===== */
-(function tryLoadLocalBackup(){
-  const backup = localStorage.getItem("admin_autosave_data");
-  if(backup){
-    try{
-      const parsed = JSON.parse(backup);
-      if(Array.isArray(parsed) && parsed.length>0){
-        // نعرض خيار الاستعادة للمستخدم
-        if(confirm("يوجد حفظ تلقائي محلي. هل تريد استعادته؟")){
-          questions = parsed;
-          renderTable();
-          showToast("تم استعادة الحفظ المحلي");
+    // كلمة المرور للدخول
+    (function protect(){
+        const auth = sessionStorage.getItem("admin_auth");
+        if(auth !== "true"){
+            const pass = prompt("الرجاء إدخال كلمة المرور للوصول إلى لوحة التحكم:");
+            if(pass === "HZ2025"){ // نفس كلمة المرور في ملفك السابق
+                sessionStorage.setItem("admin_auth", "true");
+            } else {
+                alert("كلمة مرور خاطئة!");
+                window.location.href = "index.html";
+            }
         }
-      }
-    }catch(e){}
-  }
-})();
+    })();
 
-/* ===== مساعدة الواجهة ===== */
-function removeAllEmpty(){
-  questions = questions.filter(q => (q.q||"").trim().length > 0);
-  renderTable();
-  setDirty();
-}
+    let questions = [];
 
-/* ===== أحداث الأزرار ===== */
-document.getElementById("addBtn").addEventListener("click", addRow);
-document.getElementById("exportBtn").addEventListener("click", downloadJSON);
-document.getElementById("copyBtn").addEventListener("click", copyJSON);
-document.getElementById("importBtn").addEventListener("click", openImportModal);
-document.getElementById("closeModal").addEventListener("click", closeImportModal);
-document.getElementById("resetBtn").addEventListener("click", resetAll);
+    // تحميل الأسئلة مع منع الكاش لضمان التحديث على GitHub
+    async function loadInitialData() {
+        try {
+            const response = await fetch('questions.json?v=' + Date.now());
+            if (response.ok) {
+                questions = await response.json();
+            } else {
+                throw new Error();
+            }
+        } catch (e) {
+            // بيانات افتراضية في حال عدم وجود الملف
+            questions = [
+                { "q": "هل نزل القرآن في شهر رمضان؟", "a": true },
+                { "q": "هل شهر رمضان هو الشهر التاسع هجرياً؟", "a": true }
+            ];
+        }
+        renderTable();
+    }
 
-/* إغلاق المودال بالنقر خارجه */
-modalBackdrop.addEventListener("click", (e)=>{
-  if(e.target === modalBackdrop) closeImportModal();
-});
+    function renderTable() {
+        const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+        const tbody = document.getElementById('questionsTableBody');
+        tbody.innerHTML = '';
+        
+        const filtered = questions.filter(q => q.q.toLowerCase().includes(searchTerm));
+        document.getElementById('qCount').textContent = filtered.length;
 
-/* تحميل أولي */
-loadQuestions();
+        filtered.forEach((item, index) => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${index + 1}</td>
+                <td><input type="text" class="input-q" value="${item.q}" onchange="updateQ(${index}, this.value)"></td>
+                <td>
+                    <select class="select-a" onchange="updateA(${index}, this.value)">
+                        <option value="true" ${item.a === true ? 'selected' : ''}>صحيح</option>
+                        <option value="false" ${item.a === false ? 'selected' : ''}>خاطئ</option>
+                    </select>
+                </td>
+                <td class="action-btns">
+                    <button class="btn-icon" onclick="move(${index}, -1)" title="لأعلى">⬆️</button>
+                    <button class="btn-icon" onclick="move(${index}, 1)" title="لأسفل">⬇️</button>
+                    <button class="btn-icon" onclick="duplicate(${index})" title="نسخ">📋</button>
+                    <button class="btn-icon" style="background: rgba(231,76,60,0.2)" onclick="deleteQ(${index})" title="حذف">🗑️</button>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
 
-/* قبل إغلاق الصفحة، نطلب تأكيد إذا كانت هناك تغييرات غير محفوظة */
-window.addEventListener("beforeunload", (e)=>{
-  if(isDirty){
-    e.preventDefault();
-    e.returnValue = "";
-  }
-});
+    // وظائف التعديل
+    function updateQ(idx, val) { questions[idx].q = val; saveLocal(); }
+    function updateA(idx, val) { questions[idx].a = (val === 'true'); saveLocal(); }
+    
+    function addRow() {
+        questions.unshift({ q: "", a: true });
+        renderTable();
+        saveLocal();
+    }
+
+    function deleteQ(idx) {
+        if(confirm("هل أنت متأكد من حذف هذا السؤال؟")) {
+            questions.splice(idx, 1);
+            renderTable();
+            saveLocal();
+        }
+    }
+
+    function duplicate(idx) {
+        const copy = {...questions[idx]};
+        questions.splice(idx + 1, 0, copy);
+        renderTable();
+        saveLocal();
+    }
+
+    function move(idx, step) {
+        const newIdx = idx + step;
+        if (newIdx >= 0 && newIdx < questions.length) {
+            [questions[idx], questions[newIdx]] = [questions[newIdx], questions[idx]];
+            renderTable();
+            saveLocal();
+        }
+    }
+
+    // تصدير البيانات كملف JSON
+    function downloadJSON() {
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(questions, null, 2));
+        const downloadAnchorNode = document.createElement('a');
+        downloadAnchorNode.setAttribute("href", dataStr);
+        downloadAnchorNode.setAttribute("download", "questions.json");
+        document.body.appendChild(downloadAnchorNode);
+        downloadAnchorNode.click();
+        downloadAnchorNode.remove();
+        showToast("تم تصدير الملف! قم برفعه الآن إلى مستودع GitHub.");
+    }
+
+    // استيراد بيانات من ملف
+    function importJSON(input) {
+        const file = input.files[0];
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            try {
+                const imported = JSON.parse(e.target.result);
+                if (Array.isArray(imported)) {
+                    questions = imported;
+                    renderTable();
+                    saveLocal();
+                    showToast("تم الاستيراد بنجاح!");
+                }
+            } catch (err) { alert("ملف غير صالح!"); }
+        };
+        reader.readAsText(file);
+    }
+
+    function saveLocal() {
+        localStorage.setItem("ramadan_quiz_backup", JSON.stringify(questions));
+    }
+
+    function resetAll() {
+        if(confirm("سيتم حذف جميع الأسئلة والعودة للحالة الافتراضية، هل أنت متأكد؟")) {
+            localStorage.removeItem("ramadan_quiz_backup");
+            loadInitialData();
+        }
+    }
+
+    function showToast(msg) {
+        const toast = document.getElementById('toast');
+        toast.textContent = msg;
+        toast.style.display = 'block';
+        setTimeout(() => toast.style.display = 'none', 3000);
+    }
+
+    // بدء التحميل
+    loadInitialData();
 </script>
+
 </body>
 </html>
