@@ -17,22 +17,25 @@
 /* ===== خلفية رمضانية متحركة ===== */
 body{
     overflow:hidden;
-    background:#0a0018;
+    background:radial-gradient(circle at top, #2c145a 0, #050010 55%, #000 100%);
     height:100vh;
     width:100vw;
     position:relative;
 }
 
-/* نجوم لامعة */
+/* نجوم بسيطة */
 .stars{
     position:absolute;
     width:100%;
     height:100%;
-    background:url('https://i.imgur.com/9yG7T8u.png');
-    background-size:cover;
-    animation: twinkle 6s infinite alternate ease-in-out;
-    opacity:0.7;
+    background-image:
+        radial-gradient(2px 2px at 20% 30%, #fff, transparent),
+        radial-gradient(2px 2px at 80% 20%, #fff, transparent),
+        radial-gradient(2px 2px at 60% 70%, #fff, transparent),
+        radial-gradient(2px 2px at 30% 80%, #fff, transparent);
+    opacity:0.6;
 }
+
 
 @keyframes twinkle{
     from{opacity:0.4;}
@@ -137,9 +140,9 @@ body{
 <div class="stars"></div>
 
 <!-- فوانيس -->
-<img src="https://i.imgur.com/7yqYk2P.png" class="lantern">
-<img src="https://i.imgur.com/7yqYk2P.png" class="lantern">
-<img src="https://i.imgur.com/7yqYk2P.png" class="lantern">
+<img src="lantern.png" class="lantern">
+<img src="lantern.png" class="lantern">
+<img src="lantern.png" class="lantern">
 
 <!-- شاشة إدخال الاسم -->
 <div class="username-screen" id="usernameScreen">
@@ -579,3 +582,4 @@ function restart(){
 
 </body>
 </html>
+
