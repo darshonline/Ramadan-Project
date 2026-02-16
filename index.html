@@ -1,295 +1,195 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>مسابقة رمضان الاحترافية - أكاديمية HZ</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>مسابقة رمضان الكبرى - أكاديمية HZ</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
 
-    <style>
-        :root {
-            --primary-gold: #FFD700;
-            --deep-purple: #2c145a;
-            --accent-green: #2ecc71;
-            --accent-red: #e74c3c;
-            --glass-bg: rgba(255, 255, 255, 0.1);
-            --transition-speed: 0.3s;
-        }
+<style>
+/* المتغيرات اللونية */
+:root {
+  --gold: #FFD700;
+  --deep-purple: #1a0b2e;
+  --glass: rgba(255, 255, 255, 0.1);
+  --success: #27ae60;
+  --error: #c0392b;
+}
 
-        /* RESET & BASE */
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; }
-        body {
-            background: radial-gradient(circle at top, #2c145a 0%, #050010 85%, #000 100%);
-            overflow-x: hidden;
-            min-height: 100vh;
-            color: #fff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; }
 
-        /* LOGO */
-        .site-logo {
-            position: fixed; top: 20px; left: 20px; z-index: 9999;
-            width: 80px; height: 80px; border-radius: 15px;
-            overflow: hidden; box-shadow: 0 8px 25px rgba(0,0,0,0.5);
-            border: 2px solid var(--primary-gold);
-            transition: var(--transition-speed);
-        }
-        .site-logo:hover { transform: scale(1.1) rotate(-5deg); }
-        .site-logo img { width: 100%; height: 100%; object-fit: cover; }
+body {
+  background: radial-gradient(circle at center, #2c145a 0%, #050010 100%);
+  min-height: 100vh;
+  overflow: hidden;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-        /* ATMOSPHERE */
-        .stars {
-            position: fixed; inset: 0; pointer-events: none;
-            background-image: 
-                radial-gradient(2px 2px at 20% 30%, #fff, transparent),
-                radial-gradient(1.5px 1.5px at 70% 10%, #fff, transparent),
-                radial-gradient(2px 2px at 50% 80%, #fff, transparent);
-            animation: twinkle 4s infinite alternate;
-        }
-        @keyframes twinkle { from { opacity: 0.3; } to { opacity: 0.8; } }
+/* الشعار */
+.site-logo {
+  position: fixed; top: 15px; left: 15px; z-index: 100;
+  width: 80px; height: 80px; border-radius: 15px;
+  border: 2px solid var(--gold); overflow: hidden;
+  transition: 0.3s;
+}
+.site-logo img { width: 100%; height: 100%; object-fit: cover; }
 
-        .lantern { position: fixed; width: 100px; opacity: 0.8; animation: float 6s ease-in-out infinite; pointer-events: none; z-index: 1; }
-        .lan-1 { left: 5%; top: 10%; }
-        .lan-2 { right: 5%; top: 15%; animation-delay: 2s; }
-        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+/* نجوم وفوانيس */
+.stars { position: fixed; inset: 0; background: url('https://www.transparenttextures.com/patterns/stardust.png'); opacity: 0.3; pointer-events: none; }
+.lantern { position: fixed; width: 90px; filter: drop-shadow(0 0 10px var(--gold)); animation: swing 4s ease-in-out infinite; pointer-events: none; }
+@keyframes swing { 0%, 100% { transform: rotate(-5deg) translateY(0); } 50% { transform: rotate(5deg) translateY(15px); } }
 
-        /* CARDS */
-        .card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 24px;
-            padding: 30px;
-            width: 90%;
-            max-width: 600px;
-            text-align: center;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
-            z-index: 10;
-            display: none; /* مخفي افتراضياً ويظهر عبر الـ JS */
-            animation: slideUp 0.5s ease-out;
-        }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+/* البطاقات */
+.card {
+  background: var(--glass); backdrop-filter: blur(15px);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 25px; padding: 30px; width: 90%; max-width: 600px;
+  text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+  display: none; animation: fadeIn 0.6s ease;
+}
 
-        /* PROGRESS BAR */
-        .progress-container {
-            width: 100%; height: 8px; background: rgba(255,255,255,0.1);
-            border-radius: 10px; margin-bottom: 20px; overflow: hidden;
-        }
-        #progressBar {
-            width: 0%; height: 100%; background: var(--primary-gold);
-            transition: width 0.4s ease;
-        }
+/* الأزرار */
+.btn {
+  background: var(--gold); color: var(--deep-purple);
+  padding: 12px 30px; border: none; border-radius: 50px;
+  font-weight: 900; cursor: pointer; transition: 0.3s;
+  font-size: 1.1rem; margin-top: 15px;
+}
+.btn:hover { transform: scale(1.05); box-shadow: 0 0 20px var(--gold); }
 
-        /* INPUTS & BUTTONS */
-        input {
-            width: 100%; padding: 15px; border-radius: 12px; border: none;
-            background: rgba(255,255,255,0.9); margin: 20px 0;
-            font-size: 1.1rem; text-align: center; color: #333;
-        }
-        .btn {
-            padding: 15px 35px; border-radius: 50px; border: none;
-            cursor: pointer; font-weight: 700; font-size: 1.1rem;
-            transition: all 0.2s; display: inline-block;
-        }
-        .btn-gold { background: var(--primary-gold); color: var(--deep-purple); }
-        .btn-gold:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(255,215,0,0.3); }
+.choice-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+.choice-btn { padding: 15px; border-radius: 15px; border: none; color: #fff; font-size: 1.2rem; cursor: pointer; transition: 0.2s; }
+.btn-true { background: var(--success); }
+.btn-false { background: var(--error); }
 
-        .choice-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 25px; }
-        .btn-choice { padding: 20px; border-radius: 15px; color: #fff; font-size: 1.2rem; }
-        .btn-true { background: var(--accent-green); }
-        .btn-false { background: var(--accent-red); }
+/* المؤقت */
+.timer-circle {
+  width: 60px; height: 60px; border: 3px solid var(--gold);
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 15px; font-weight: 900; font-size: 1.4rem;
+}
 
-        /* FEEDBACK */
-        #feedback { font-size: 1.2rem; font-weight: 700; margin-top: 15px; height: 30px; }
-        .correct-anim { animation: pulse 0.5s ease; }
-        .wrong-anim { animation: shake 0.5s ease; }
-        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px); } 75% { transform: translateX(10px); } }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
-
-        /* CERTIFICATE */
-        .certificate-content { background: #fff; color: #2c145a; padding: 30px; border-radius: 15px; position: relative; }
-        .rank-badge { font-size: 1.5rem; font-weight: 900; color: #d4af37; margin: 10px 0; }
-
-        /* MOBILE OPTIMIZATION */
-        @media (max-width: 480px) {
-            .card { padding: 20px; }
-            .site-logo { width: 50px; height: 50px; top: 10px; left: 10px; }
-            .choice-btns { grid-template-columns: 1fr; }
-        }
-    </style>
+@keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+</style>
 </head>
 <body>
 
-    <a href="index.html" class="site-logo">
-        <img src="HZ-Academy.jpg" alt="Logo">
-    </a>
+<a href="index.html" class="site-logo">
+  <img src="HZ-Academy.jpg" alt="Logo">
+</a>
 
-    <div class="stars"></div>
-    <img src="lantern.png" class="lantern lan-1">
-    <img src="lantern.png" class="lantern lan-2">
+<div class="stars"></div>
+<img src="lantern.png" class="lantern" style="right: 5%; top: 5%;">
+<img src="lantern.png" class="lantern" style="left: 5%; top: 10%;">
 
-    <div class="card" id="screen-name" style="display: block;">
-        <h2 style="color: var(--primary-gold)">أهلاً بك في مسابقة رمضان</h2>
-        <p>لطفاً، أدخل اسمك لبدء التحدي</p>
-        <input type="text" id="usernameInput" placeholder="اسمك الكريم...">
-        <button class="btn btn-gold" onclick="goToStart()">متابعة</button>
-    </div>
+<div id="setup-screen" class="card" style="display: block;">
+  <h1 style="color: var(--gold); margin-bottom: 10px;">🌙 مسابقة رمضان</h1>
+  <p>أهلاً بك في تحدي المعلومات الرمضانية</p>
+  <input type="text" id="playerName" placeholder="أدخل اسمك الكريم" style="width: 100%; padding: 12px; margin: 20px 0; border-radius: 10px; border: none; text-align: center;">
+  <button class="btn" onclick="startApp()">ابتدئ البركة</button>
+</div>
 
-    <div class="card" id="screen-start">
-        <h1 style="margin-bottom: 10px;">🌙 مسابقة أكاديمية HZ</h1>
-        <p>10 نقاط لكل إجابة صحيحة | 20 ثانية لكل سؤال</p>
-        <br>
-        <button class="btn btn-gold" onclick="startGame()">إبدأ السباق الرمضاني</button>
-    </div>
+<div id="game-screen" class="card">
+  <div class="timer-circle" id="timer">20</div>
+  <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+    <span>السؤال: <span id="q-count">1</span></span>
+    <span>النقاط: <span id="score">0</span></span>
+  </div>
+  <h2 id="question-text" style="min-height: 100px;">...</h2>
+  <div class="choice-btns">
+    <button class="choice-btn btn-true" onclick="handleAnswer(true)">صحيح ✓</button>
+    <button class="choice-btn btn-false" onclick="handleAnswer(false)">خاطئ ✗</button>
+  </div>
+</div>
 
-    <div class="card" id="screen-game">
-        <div class="progress-container"><div id="progressBar"></div></div>
-        
-        <div style="display: flex; justify-content: space-between; margin-bottom: 15px; font-weight: bold;">
-            <span>السؤال: <span id="qnum">1</span></span>
-            <span id="timer" style="color: var(--primary-gold)">20</span>
-            <span>النقاط: <span id="score">0</span></span>
-        </div>
+<div id="end-screen" class="card">
+  <h2 style="color: var(--gold)">تقبل الله طاعتكم</h2>
+  <div id="certificate" style="background: #fff; color: #333; padding: 20px; border-radius: 15px; margin: 20px 0;">
+    <p>تشهد أكاديمية HZ بأن</p>
+    <h3 id="final-name" style="font-size: 1.6rem; color: var(--deep-purple);"></h3>
+    <p>قد أتم المسابقة بنسبة نجاح</p>
+    <h2 id="final-percent" style="color: var(--success)"></h2>
+  </div>
+  <button class="btn" onclick="location.reload()">إعادة التحدي</button>
+</div>
 
-        <h2 id="q-txt" style="min-height: 80px; display: flex; align-items: center; justify-content: center;">...</h2>
+<script>
+/* إعداد الأصوات الرمضانية */
+const audioFiles = {
+  start: new Audio('https://assets.mixkit.co/active_storage/sfx/2305/2305-preview.mp3'), // صوت دف/طبلة
+  correct: new Audio('https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3'), // رنة مبهجة
+  wrong: new Audio('https://assets.mixkit.co/active_storage/sfx/2347/2347-preview.mp3'), // تنبيه هادئ
+  finish: new Audio('https://assets.mixkit.co/active_storage/sfx/1435/1435-preview.mp3'), // احتفال
+  tick: new Audio('https://assets.mixkit.co/active_storage/sfx/2544/2544-preview.mp3') // صوت تكة للساعة
+};
 
-        <div class="choice-btns">
-            <button class="btn btn-choice btn-true" onclick="checkAnswer(true)">صحيح ✓</button>
-            <button class="btn btn-choice btn-false" onclick="checkAnswer(false)">خاطئ ✗</button>
-        </div>
-        <div id="feedback"></div>
-    </div>
+let questions = [];
+let currentIdx = 0;
+let score = 0;
+let timeLeft = 20;
+let timerInterval;
 
-    <div class="card" id="screen-end">
-        <div class="certificate-content">
-            <h2 style="border-bottom: 2px solid #eee; padding-bottom: 10px;">شهادة تقدير</h2>
-            <p style="margin-top: 15px;">يتقدم فريق أكاديمية HZ بتهنئة:</p>
-            <h3 id="certName" style="font-size: 1.8rem; color: #c0392b;">-</h3>
-            <p>لإتمامه المسابقة الرمضانية بنتيجة:</p>
-            <div class="rank-badge" id="certRank">-</div>
-            <p>النقاط: <strong id="certScore">0</strong> | النسبة: <strong id="certPercent">0</strong>%</p>
-        </div>
-        <button class="btn btn-gold" style="margin-top: 20px;" onclick="location.reload()">إعادة المحاولة</button>
-    </div>
+async function startApp() {
+  const name = document.getElementById('playerName').value;
+  if(!name) return alert("لطفاً أدخل اسمك");
+  
+  try {
+    const res = await fetch('questions.json');
+    questions = await res.json();
+    questions = questions.sort(() => Math.random() - 0.5); // خلط الأسئلة
+    
+    document.getElementById('setup-screen').style.display = 'none';
+    document.getElementById('game-screen').style.display = 'block';
+    audioFiles.start.play();
+    loadQuestion();
+  } catch(e) { alert("تأكد من وجود ملف questions.json"); }
+}
 
-    <script>
-        // الأصوات
-        const sounds = {
-            correct: new Audio("https://cdn.pixabay.com/download/audio/2021/08/04/audio_bbd13143ef.mp3?filename=success-1-6297.mp3"),
-            wrong: new Audio("https://cdn.pixabay.com/download/audio/2022/03/24/audio_7315582f3d.mp3?filename=error-126627.mp3"),
-            start: new Audio("https://cdn.pixabay.com/download/audio/2022/01/18/audio_d0a13f69d2.mp3?filename=game-start-6104.mp3")
-        };
+function loadQuestion() {
+  if(currentIdx >= questions.length) return showResults();
+  
+  timeLeft = 20;
+  document.getElementById('timer').innerText = timeLeft;
+  document.getElementById('question-text').innerText = questions[currentIdx].q;
+  document.getElementById('q-count').innerText = currentIdx + 1;
+  
+  clearInterval(timerInterval);
+  timerInterval = setInterval(() => {
+    timeLeft--;
+    document.getElementById('timer').innerText = timeLeft;
+    if(timeLeft <= 5) audioFiles.tick.play();
+    if(timeLeft <= 0) handleAnswer(null);
+  }, 1000);
+}
 
-        let allQuestions = [];
-        let currentPos = 0;
-        let score = 0;
-        let username = "";
-        let timeLeft = 20;
-        let timerId = null;
+function handleAnswer(ans) {
+  clearInterval(timerInterval);
+  const correct = questions[currentIdx].a;
+  
+  if(ans === correct) {
+    score += 10;
+    audioFiles.correct.play();
+  } else {
+    audioFiles.wrong.play();
+  }
+  
+  document.getElementById('score').innerText = score;
+  currentIdx++;
+  setTimeout(loadQuestion, 1000);
+}
 
-        // وظائف التنقل بين الشاشات
-        function showScreen(id) {
-            document.querySelectorAll('.card').forEach(s => s.style.display = 'none');
-            document.getElementById(id).style.display = 'block';
-        }
-
-        function goToStart() {
-            username = document.getElementById("usernameInput").value.trim();
-            if(!username) return alert("من فضلك أدخل اسمك");
-            showScreen('screen-start');
-        }
-
-        // تحميل الأسئلة مع خلطها
-        async function startGame() {
-            try {
-                const res = await fetch("questions.json?v=" + Date.now());
-                allQuestions = await res.json();
-                // خلط الأسئلة (Fisher-Yates Shuffle)
-                allQuestions.sort(() => Math.random() - 0.5);
-                
-                sounds.start.play().catch(()=>{});
-                showScreen('screen-game');
-                renderQuestion();
-            } catch (e) {
-                alert("خطأ: تأكد من وجود ملف questions.json");
-            }
-        }
-
-        function renderQuestion() {
-            if (currentPos >= allQuestions.length) return endGame();
-
-            const q = allQuestions[currentPos];
-            document.getElementById("q-txt").innerText = q.q;
-            document.getElementById("qnum").innerText = currentPos + 1;
-            document.getElementById("feedback").innerText = "";
-            
-            // تحديث شريط التقدم
-            const prog = ((currentPos) / allQuestions.length) * 100;
-            document.getElementById("progressBar").style.width = prog + "%";
-
-            resetTimer();
-        }
-
-        function resetTimer() {
-            clearInterval(timerId);
-            timeLeft = 20;
-            document.getElementById("timer").innerText = timeLeft;
-            timerId = setInterval(() => {
-                timeLeft--;
-                document.getElementById("timer").innerText = timeLeft;
-                if (timeLeft <= 0) {
-                    clearInterval(timerId);
-                    checkAnswer(null); // الوقت انتهى
-                }
-            }, 1000);
-        }
-
-        function checkAnswer(userChoice) {
-            clearInterval(timerId);
-            const correctAnswer = allQuestions[currentPos].a;
-            const feedbackEl = document.getElementById("feedback");
-            const gameCard = document.getElementById("screen-game");
-
-            if (userChoice === correctAnswer) {
-                score += 10;
-                feedbackEl.innerText = "إجابة صحيحة! أحسنت 🌟";
-                feedbackEl.style.color = "var(--accent-green)";
-                gameCard.classList.add("correct-anim");
-                sounds.correct.play().catch(()=>{});
-            } else {
-                feedbackEl.innerText = userChoice === null ? "انتهى الوقت! ⏰" : "إجابة خاطئة.. حاول في التالي 🌙";
-                feedbackEl.style.color = "var(--accent-red)";
-                gameCard.classList.add("wrong-anim");
-                sounds.wrong.play().catch(()=>{});
-            }
-
-            document.getElementById("score").innerText = score;
-
-            setTimeout(() => {
-                gameCard.classList.remove("correct-anim", "wrong-anim");
-                currentPos++;
-                renderQuestion();
-            }, 1500);
-        }
-
-        function endGame() {
-            showScreen('screen-end');
-            const percent = (score / (allQuestions.length * 10)) * 100;
-            
-            document.getElementById("certName").innerText = username;
-            document.getElementById("certScore").innerText = score;
-            document.getElementById("certPercent").innerText = percent.toFixed(0);
-
-            let rank = "";
-            if(percent >= 90) rank = "🏆 ممتاز جداً";
-            else if(percent >= 75) rank = "🌟 جيد جداً";
-            else if(percent >= 50) rank = "👍 جيد";
-            else rank = "🌙 محاولة مباركة";
-            
-            document.getElementById("certRank").innerText = rank;
-        }
-    </script>
+function showResults() {
+  document.getElementById('game-screen').style.display = 'none';
+  document.getElementById('end-screen').style.display = 'block';
+  audioFiles.finish.play();
+  
+  document.getElementById('final-name').innerText = document.getElementById('playerName').value;
+  const percent = (score / (questions.length * 10)) * 100;
+  document.getElementById('final-percent').innerText = percent.toFixed(1) + "%";
+}
+</script>
 </body>
 </html>
