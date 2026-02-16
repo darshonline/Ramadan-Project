@@ -61,7 +61,7 @@ if(pass !== "HZ2025"){
     <div class="top-bar">
         <div>
             <button class="btn btn-primary" onclick="addRow()">إضافة سؤال جديد</button>
-            <button class="btn btn-secondary" onclick="saveAll()">حفظ جميع التغييرات</button>
+            <button class="btn btn-secondary" onclick="downloadJSON()">حفظ جميع التغييرات</button>
             <button class="btn btn-danger" onclick="resetAll()">إعادة الأسئلة الافتراضية</button>
         </div>
         <a href="index.html">⬅ العودة إلى صفحة اللعب</a>
@@ -85,8 +85,14 @@ if(pass !== "HZ2025"){
 </div>
 
 <script>
-/* نفس مفتاح التخزين المستخدم في index.html */
-const STORAGE_KEY="hz_ramadan_questions_v1";
+/* تحميل الأسئلة من ملف JSON */
+let questions = [];
+
+async function loadQuestions(){
+    const res = await fetch("questions.json?nocache=" + Date.now());
+    questions = await res.json();
+    renderTable();
+}
 
 /* الأسئلة الافتراضية */
 const defaultQuestions=[
@@ -97,30 +103,6 @@ const defaultQuestions=[
     {q:"الأفضل للمصلي في صلاة التراويح أن ينصرف قبل أن يكمل الإمام صلاته.",a:false}
 ];
 
-/* تحميل الأسئلة */
-function loadQuestions(){
-    try{
-        const saved=localStorage.getItem(STORAGE_KEY);
-        if(saved) return JSON.parse(saved);
-    }catch(e){console.warn(e);}
-    return [...defaultQuestions];
-}
-
-/* حفظ الأسئلة */
-function saveQuestions(questions){
-    try{
-        localStorage.setItem(STORAGE_KEY,JSON.stringify(questions));
-    }catch(e){console.error(e);}
-}
-
-/* إعادة الافتراضي */
-function resetQuestions(){
-    saveQuestions(defaultQuestions);
-    return loadQuestions();
-}
-
-/* الحالة الحالية */
-let questions = loadQuestions();
 const tbody = document.querySelector("#qTable tbody");
 
 /* رسم الجدول */
@@ -141,12 +123,10 @@ function renderTable(){
 
         const tdA=document.createElement("td");
         const selectA=document.createElement("select");
-        const optTrue=document.createElement("option");
-        optTrue.value="true";optTrue.textContent="صحيح";
-        const optFalse=document.createElement("option");
-        optFalse.value="false";optFalse.textContent="خاطئ";
-        selectA.appendChild(optTrue);
-        selectA.appendChild(optFalse);
+        selectA.innerHTML = `
+            <option value="true">صحيح</option>
+            <option value="false">خاطئ</option>
+        `;
         selectA.value=item.a?"true":"false";
         selectA.onchange=(e)=>{questions[index].a=(e.target.value==="true");};
         tdA.appendChild(selectA);
@@ -170,32 +150,3 @@ function renderTable(){
 
         tbody.appendChild(tr);
     });
-}
-
-/* إضافة صف جديد */
-function addRow(){
-    questions.push({q:"",a:true});
-    renderTable();
-}
-
-/* حفظ كل التغييرات */
-function saveAll(){
-    questions = questions.filter(q=>q.q.trim()!=="");
-    saveQuestions(questions);
-    alert("تم حفظ جميع التغييرات بنجاح.");
-    renderTable();
-}
-
-/* إعادة الافتراضي */
-function resetAll(){
-    if(!confirm("سيتم استرجاع الأسئلة الافتراضية وحذف التعديلات، هل أنت متأكد؟")) return;
-    questions = resetQuestions();
-    renderTable();
-}
-
-/* أول تحميل */
-renderTable();
-</script>
-
-</body>
-</html>
