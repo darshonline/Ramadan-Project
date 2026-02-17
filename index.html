@@ -11,7 +11,7 @@
             --primary-gold: #FFD700;
             --success: #2ecc71;
             --error: #e74c3c;
-            --glass: rgba(255, 255, 255, 0.08);
+            --glass: rgba(255, 255, 255, 0.1);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; }
@@ -27,158 +27,134 @@
             position: relative;
         }
 
-        /* --- الشعار في أعلى اليسار --- */
-        .site-logo {
-            position: fixed;
-            top: 14px;
-            left: 14px;
-            z-index: 9999;
-            width: 90px;
-            height: 90px;
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid rgba(255,215,0,0.3);
-            box-shadow: 0 6px 18px rgba(0,0,0,0.4);
-            background: rgba(255,255,255,0.02);
-            transition: 0.3s;
+        /* --- تأثيرات الأجواء الرمضانية (النجوم والفوانيس) --- */
+        .stars {
+            position: fixed; inset: 0;
+            background: url('https://www.transparenttextures.com/patterns/stardust.png');
+            opacity: 0.3; pointer-events: none; z-index: 1;
         }
-        .site-logo:hover { transform: scale(1.05); }
-        .site-logo img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-        /* البطاقة التعريفية */
+        .lantern {
+            position: fixed; width: 70px; 
+            filter: drop-shadow(0 0 12px var(--primary-gold));
+            animation: swing 4s ease-in-out infinite;
+            z-index: 2; pointer-events: none;
+        }
+        @keyframes swing {
+            0%, 100% { transform: rotate(-6deg); }
+            50% { transform: rotate(6deg) translateY(10px); }
+        }
+
+        /* --- الشعار الأصلي --- */
+        .site-logo {
+            position: fixed; top: 15px; left: 15px; z-index: 9999;
+            width: 85px; height: 85px; border-radius: 12px;
+            overflow: hidden; border: 1px solid var(--primary-gold);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+            background: rgba(255,255,255,0.05);
+        }
+        .site-logo img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* البطاقة التصميمية */
         .card {
-            background: var(--glass);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 24px;
-            padding: 35px;
-            width: 92%;
-            max-width: 550px;
-            text-align: center;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            z-index: 10;
+            background: var(--glass); backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 30px; padding: 35px; width: 92%; max-width: 550px;
+            text-align: center; box-shadow: 0 25px 60px rgba(0,0,0,0.6);
+            position: relative; z-index: 10;
         }
 
         .btn {
-            background: var(--primary-gold);
-            color: #1a0b2e;
-            padding: 14px 40px;
-            border: none;
-            border-radius: 50px;
-            font-weight: 900;
-            cursor: pointer;
-            transition: 0.3s;
-            font-size: 1.1rem;
-            margin-top: 20px;
+            background: var(--primary-gold); color: #1a0b2e;
+            padding: 15px 45px; border: none; border-radius: 50px;
+            font-weight: 900; cursor: pointer; transition: 0.3s;
+            font-size: 1.1rem; margin-top: 20px;
         }
-        .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(255, 215, 0, 0.3); }
+        .btn:hover { transform: scale(1.05); box-shadow: 0 0 20px rgba(255, 215, 0, 0.4); }
 
         input {
-            width: 100%;
-            padding: 15px;
-            margin: 20px 0;
-            border-radius: 12px;
-            border: none;
-            text-align: center;
-            font-size: 1.1rem;
+            width: 100%; padding: 15px; margin: 20px 0; border-radius: 15px;
+            border: none; text-align: center; font-size: 1.1rem; outline: none;
         }
 
         .choice-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 25px; }
         .choice-btn {
-            padding: 20px;
-            border-radius: 15px;
-            border: none;
-            color: #fff;
-            font-size: 1.4rem;
-            font-weight: 800;
-            cursor: pointer;
-            transition: 0.2s;
+            padding: 20px; border-radius: 15px; border: none; color: #fff;
+            font-size: 1.4rem; font-weight: 800; cursor: pointer; transition: 0.2s;
         }
         .btn-true { background: var(--success); }
         .btn-false { background: var(--error); }
-        .choice-btn:active { transform: scale(0.95); }
 
-        #timer { font-size: 2.5rem; font-weight: 900; color: var(--primary-gold); margin-bottom: 10px; }
+        #timer { font-size: 2.5rem; font-weight: 900; color: var(--primary-gold); margin-bottom: 5px; }
 
-        /* شريط الحقوق السفلي */
+        /* شريط حقوق الملكية */
         .footer-rights {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            color: var(--primary-gold);
-            text-align: center;
-            padding: 10px;
-            font-weight: bold;
-            font-size: 0.9rem;
-            z-index: 1000;
+            position: fixed; bottom: 0; width: 100%;
+            background: rgba(0, 0, 0, 0.7); color: var(--primary-gold);
+            text-align: center; padding: 12px; font-weight: bold;
+            font-size: 0.95rem; z-index: 1000; border-top: 1px solid rgba(255,215,0,0.2);
         }
     </style>
 </head>
 <body>
+
+    <div class="stars"></div>
+    <img src="lantern.png" class="lantern" style="right: 5%; top: -10px;">
+    <img src="lantern.png" class="lantern" style="left: 20%; top: -20px; width: 50px; opacity: 0.7;">
 
     <div class="site-logo">
         <img src="HZ-Academy.jpg" alt="Logo">
     </div>
 
     <div id="screen-welcome" class="card">
-        <h1 style="color: var(--primary-gold); margin-bottom: 10px;">مسابقة رمضان 🌙</h1>
-        <p>أهلاً بك في تحدي أكاديمية HZ</p>
-        <input type="text" id="playerName" placeholder="أدخل اسمك الكريم هنا...">
-        <button class="btn" onclick="startQuiz()">ابدأ المسابقة</button>
+        <h1 style="color: var(--primary-gold); margin-bottom: 10px; font-size: 2.2rem;">مسابقة رمضان 🌙</h1>
+        <p style="font-size: 1.1rem; opacity: 0.9;">أهلاً بك في تحدي أكاديمية HZ المطور</p>
+        <input type="text" id="playerName" placeholder="اكتب اسمك هنا للشرف...">
+        <button class="btn" onclick="startQuiz()">ابدأ التحدي</button>
     </div>
 
     <div id="screen-game" class="card" style="display: none;">
         <div id="timer">20</div>
-        <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
-            <span>السؤال: <span id="q-idx">1</span></span>
-            <span>النقاط: <span id="score-val">0</span></span>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 15px; font-weight: bold;">
+            <span>سؤال: <span id="q-idx">1</span></span>
+            <span>نقاطك: <span id="score-val">0</span></span>
         </div>
-        <h2 id="q-text" style="min-height: 90px; line-height: 1.4;">...</h2>
+        <h2 id="q-text" style="min-height: 100px; display: flex; align-items: center; justify-content: center;">...</h2>
         <div class="choice-btns">
             <button class="choice-btn btn-true" onclick="handleAnswer(true)">صحيح ✓</button>
             <button class="choice-btn btn-false" onclick="handleAnswer(false)">خاطئ ✗</button>
         </div>
-        <div id="feedback" style="margin-top: 20px; font-weight: bold; font-size: 1.2rem; height: 30px;"></div>
+        <div id="feedback" style="margin-top: 20px; font-weight: 900; font-size: 1.3rem; height: 30px;"></div>
     </div>
 
     <div class="footer-rights">
-        جميع الحقوق محفوظة © ٢٠٢٥ | تطوير وإعداد محمد مصطفى
+        جميع الحقوق محفوظة © ٢٠٢٥ | تم التطوير بواسطة محمد مصطفى
     </div>
 
     <script>
-        // ملفات الصوت
         const sounds = {
             correct: new Audio('https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3'),
-            wrong: new Audio('https://assets.mixkit.co/active_storage/sfx/2347/2347-preview.mp3') // صوت الخطأ
+            wrong: new Audio('https://assets.mixkit.co/active_storage/sfx/2347/2347-preview.mp3')
         };
 
-        let questions = [];
-        let currentIdx = 0;
-        let score = 0;
-        let timeLeft = 20;
-        let timerInterval;
+        let questions = [], currentIdx = 0, score = 0, timeLeft = 20, timerInterval;
 
         async function startQuiz() {
             const name = document.getElementById('playerName').value.trim();
-            if(!name) return alert("لطفاً أدخل اسمك");
-
+            if(!name) return alert("من فضلك أدخل اسمك");
             try {
                 const res = await fetch('questions.json?v=' + Date.now());
                 questions = await res.json();
                 questions.sort(() => Math.random() - 0.5);
-                
                 document.getElementById('screen-welcome').style.display = 'none';
                 document.getElementById('screen-game').style.display = 'block';
                 loadQuestion();
-            } catch(e) {
-                alert("خطأ في تحميل الأسئلة. تأكد من وجود ملف questions.json");
-            }
+            } catch(e) { alert("تأكد من وجود ملف questions.json"); }
         }
 
         function loadQuestion() {
             if(currentIdx >= questions.length) {
-                alert("انتهت المسابقة! مجموع نقاطك: " + score);
+                alert("أحسنت! مجموع نقاطك: " + score);
                 location.reload();
                 return;
             }
@@ -195,10 +171,7 @@
             timerInterval = setInterval(() => {
                 timeLeft--;
                 document.getElementById('timer').innerText = timeLeft;
-                if(timeLeft <= 0) {
-                    clearInterval(timerInterval);
-                    handleAnswer(null);
-                }
+                if(timeLeft <= 0) { clearInterval(timerInterval); handleAnswer(null); }
             }, 1000);
         }
 
@@ -206,23 +179,18 @@
             clearInterval(timerInterval);
             const isCorrect = questions[currentIdx].a;
             const feedback = document.getElementById('feedback');
-
             if(ans === isCorrect) {
                 score += 10;
-                feedback.innerText = "إجابة صحيحة! ✨";
+                feedback.innerText = "أحسنت! إجابة صحيحة 🌟";
                 feedback.style.color = "var(--success)";
                 sounds.correct.play().catch(()=>{});
             } else {
-                feedback.innerText = "إجابة خاطئة! ✗";
+                feedback.innerText = "للأسف! إجابة خاطئة ✗";
                 feedback.style.color = "var(--error)";
-                sounds.wrong.play().catch(()=>{}); // تفعيل صوت الخطأ
+                sounds.wrong.play().catch(()=>{});
             }
-
             document.getElementById('score-val').innerText = score;
-            setTimeout(() => {
-                currentIdx++;
-                loadQuestion();
-            }, 1200);
+            setTimeout(() => { currentIdx++; loadQuestion(); }, 1400);
         }
     </script>
 </body>
